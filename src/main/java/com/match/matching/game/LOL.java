@@ -1,0 +1,55 @@
+package com.match.matching.game;
+
+import com.match.matching.Type.GameType;
+import com.match.matching.Type.Tier;
+import com.match.matching.dto.ChatRoom;
+import com.match.matching.dto.Player;
+
+import java.util.*;
+import java.util.Vector;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class LOL implements Game{
+    List<ChatRoom> chatRooms  = new ArrayList<>(); //롤 현재 생성되어있는 채팅방 리스트
+    @Override
+    public List<ChatRoom> filteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
+        List<ChatRoom> filterList =
+                chatRooms.stream()
+                        .filter(equalType(player))
+                        .filter(equalRank(player))
+                        .filter(equalTier(player))
+                        .filter(equalLine(player))
+                        .collect(Collectors.toList());
+        return filterList;
+    }
+
+    public void add(ChatRoom chatRoom){
+        chatRooms.add(chatRoom);
+    }
+
+    public void show(){
+        chatRooms.stream().forEach(
+                chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine()));
+    }
+
+    public int length(){
+        return chatRooms.size();
+    }
+
+    private Predicate<ChatRoom> equalTier(Player player){ // 티어별로 필터링
+        return room -> room.getTier() == player.getTier();
+    }
+
+    private Predicate<ChatRoom> equalType(Player player){ // 게임 타입별(칼바람, 협곡)로 필터링
+        return room -> room.getGameType() == player.getGameType();
+    }
+
+    private Predicate<ChatRoom> equalRank(Player player){ // 랭크 종류별로 필터링
+        return room -> room.getRank() == player.getRank();
+    }
+
+    private Predicate<ChatRoom> equalLine(Player player){ // 라인별로 필터링
+        return room -> room.getLine() == player.getLine();
+    }
+}
