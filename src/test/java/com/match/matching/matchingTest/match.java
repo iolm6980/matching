@@ -18,7 +18,12 @@ public class match {
 
     @Test
     public void test(){
-
+        Player player = Player.builder()
+                .game(Game.OVERWATCH)
+                .gameType(GameType.TFT)
+                .tier(Tier.GOLD)
+                .build();
+        chatService.enterPlayer(player);
     }
 
     @Test
@@ -26,9 +31,8 @@ public class match {
         LOL lol = new LOL();
         Player player = Player.builder()
                 .game(Game.LOL)
-                .gameType(GameType.ARAM)
+                .gameType(GameType.TFT)
                 .tier(Tier.GOLD)
-                .line(Line.AD)
                 .build();
         ChatRoom chat = ChatRoom.builder()
                 .game(Game.LOL)
