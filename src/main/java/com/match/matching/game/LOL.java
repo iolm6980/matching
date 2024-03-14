@@ -1,6 +1,8 @@
 package com.match.matching.game;
 
+import com.fasterxml.jackson.databind.util.ArrayBuilders;
 import com.match.matching.Type.GameType;
+import com.match.matching.Type.Line;
 import com.match.matching.Type.Tier;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
@@ -21,9 +23,10 @@ public class LOL implements Game{
         List<ChatRoom> filterList =
                 chatRooms.stream()
                         .filter(equalType(player))
-//                        .filter(equalTier(player))
-//                        .filter(equalLine(player))
+                        .filter(equalTier(player))
+                        .filter(equalLine(player))
                         .collect(Collectors.toList());
+
         return filterList;
     }
 
@@ -51,6 +54,20 @@ public class LOL implements Game{
 
     private Predicate<ChatRoom> equalLine(Player player){ // 라인별로 필터링
         //TFT는 라인 개념이 없으므로 TFT일 경우는 따로 설정한다
-        return room -> (player.getGameType() == GameType.TFT) ? true : room.getLine() == player.getLine();
+        if(player.getGameType() == GameType.TFT) return room -> true; //라인에 상관없이 반환
+        else if(player.getLine() == Line.ALL) return room -> true; // 모든라인이 가능한경우에도 라인에 상관없이 반환
+        else return room -> {
+                Predicate<ChatRoom> predicate = null;
+                int overlapLine = room.getLineList() & player.getLineList();
+                //1:탑 2:정글 3:미드 4:원딜 5:서폿
+                if((overlapLine & 1) > 0 ) predicate.or(r -> r.getLine() == Line.TOP);
+                if((overlapLine & 2) > 0 ) predicate.or(r -> r.getLine() == Line.JUNGLE);
+                if((overlapLine & 3) > 0 ) predicate.or(r -> r.getLine() == Line.MID);
+                if((overlapLine & 4) > 0 ) predicate.or(r -> r.getLine() == Line.AD);
+                if((overlapLine & 5) > 0 ) predicate.or(r -> r.getLine() == Line.SUPPORTER);
+                return predicate.equals(player);
+            };
+
     }
+
 }

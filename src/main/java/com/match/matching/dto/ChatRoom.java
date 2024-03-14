@@ -23,6 +23,7 @@ public class ChatRoom {
     private GameType gameType;
     private int people;
     private Line line;
+    private int lineList;
     @Builder.Default
     private Set<WebSocketSession> sessions = new HashSet<>();
 

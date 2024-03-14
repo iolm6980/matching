@@ -14,4 +14,5 @@ public class Player {
     private GameType gameType;
     private int people;
     private Line line;
+    private int lineList;
 }
