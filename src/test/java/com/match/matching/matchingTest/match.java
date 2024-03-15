@@ -31,31 +31,37 @@ public class match {
         LOL lol = new LOL();
         Player player = Player.builder()
                 .game(Game.LOL)
-                .gameType(GameType.TFT)
+                .gameType(GameType.NORMAL)
                 .tier(Tier.GOLD)
+                .line(Line.TOP)
+                .lineList(3)
                 .build();
         ChatRoom chat = ChatRoom.builder()
                 .game(Game.LOL)
-                .gameType(GameType.ARAM)
+                .gameType(GameType.NORMAL)
                 .tier(Tier.GOLD)
-                .line(Line.AD)
+                .line(Line.MID)
+                .lineList(3)
                 .build();
-        lol.add(chat);
         ChatRoom chat1 = ChatRoom.builder()
                 .game(Game.LOL)
-                .gameType(GameType.ARAM)
+                .gameType(GameType.NORMAL)
                 .tier(Tier.GOLD)
-                .line(Line.AD)
+                .line(Line.MID)
+                .lineList(31)
                 .build();
+        lol.add(chat);
         lol.add(chat1);
+
         System.out.println(player.getGameType() + " / " + player.getTier() + " / " + player.getLine());
-        IntStream.rangeClosed(1,100).forEach(
+        IntStream.rangeClosed(1,300).forEach(
                 i ->{
                     ChatRoom chatRoom = ChatRoom.builder()
                             .game(Game.LOL)
                             .gameType(GameType.getRandom())
                             .tier(Tier.getRandom())
                             .line(Line.getRandom())
+                            .lineList((int) (Math.random() * 31))
                             .build();
                     lol.add(chatRoom);
                 }
@@ -64,7 +70,8 @@ public class match {
         System.out.println("-------------------------------------------------------------------------");
         lol.show();
         System.out.println("-------------------------------------------------------------------------");
-        list.forEach(chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine()));
+        list.forEach(chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / "
+                + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
 }

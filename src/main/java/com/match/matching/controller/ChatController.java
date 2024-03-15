@@ -16,7 +16,7 @@ public class ChatController {
 
     @PostMapping("/match")
     public String matching(Player player){
-        System.out.println("player........" + player.getGame() + " / " +player.getGameType() + " / " + player.getTier());
+        System.out.println("player........" + player.getGame() + " / " +player.getGameType() + " / " + player.getTier() + " / " + Integer.toBinaryString(player.getLineList()));
         chatService.enterPlayer(player);
         return "redirect:/chat/main";
     }

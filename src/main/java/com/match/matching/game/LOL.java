@@ -24,7 +24,7 @@ public class LOL implements Game{
                 chatRooms.stream()
                         .filter(equalType(player))
                         .filter(equalTier(player))
-                        .filter(equalLine(player))
+                        .filter(filterLine(player))
                         .collect(Collectors.toList());
 
         return filterList;
@@ -37,37 +37,34 @@ public class LOL implements Game{
 
     public void show(){
         chatRooms.stream().forEach(
-                chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine()));
+                chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
     public void length(){
         System.out.println(chatRooms.size());
     }
-    // 플레이어가 선택한 티어와 같은것을 필터링한다
-    private Predicate<ChatRoom> equalTier(Player player){ // 티어별로 필터링
+
+    private Predicate<ChatRoom> equalTier(Player player){ // 플레이어가 선택한 티어와 같은것을 필터링한다
         return room -> room.getTier() == player.getTier();
     }
-    // 플레이어가 선택한 게임타입과 같은것을 필터링한다
+
     private Predicate<ChatRoom> equalType(Player player){ // 게임 타입별(칼바람, 협곡)로 필터링
         return room -> room.getGameType() == player.getGameType();
     }
 
-    private Predicate<ChatRoom> equalLine(Player player){ // 라인별로 필터링
+    private Predicate<ChatRoom> filterLine(Player player){ // 라인별로 필터링
         //TFT는 라인 개념이 없으므로 TFT일 경우는 따로 설정한다
         if(player.getGameType() == GameType.TFT) return room -> true; //라인에 상관없이 반환
         else if(player.getLine() == Line.ALL) return room -> true; // 모든라인이 가능한경우에도 라인에 상관없이 반환
-        else return room -> {
-                Predicate<ChatRoom> predicate = null;
-                int overlapLine = room.getLineList() & player.getLineList();
-                //1:탑 2:정글 3:미드 4:원딜 5:서폿
-                if((overlapLine & 1) > 0 ) predicate.or(r -> r.getLine() == Line.TOP);
-                if((overlapLine & 2) > 0 ) predicate.or(r -> r.getLine() == Line.JUNGLE);
-                if((overlapLine & 3) > 0 ) predicate.or(r -> r.getLine() == Line.MID);
-                if((overlapLine & 4) > 0 ) predicate.or(r -> r.getLine() == Line.AD);
-                if((overlapLine & 5) > 0 ) predicate.or(r -> r.getLine() == Line.SUPPORTER);
-                return predicate.equals(player);
-            };
-
+        else return room -> (room.getLineList() & lineToInt(player.getLine())) > 0; //플레이어의 라인을 가진 방을 반환
     }
-
+    
+    private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
+        if(line == Line.TOP) return (1 << 0);
+        else if(line == Line.JUNGLE) return (1 << 1);
+        else if(line == Line.MID) return (1 << 2);
+        else if(line == Line.AD) return (1 << 3);
+        else if(line == Line.SUPPORTER) return (1 << 4);
+        else return 0;
+    }
 }
