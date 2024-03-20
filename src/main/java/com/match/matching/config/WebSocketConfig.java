@@ -13,11 +13,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
-    private final WebSocketHandler webSocketHandler;
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "ws/chat").setAllowedOrigins("*");
-
-    }
+public class WebSocketConfig /*implements WebSocketConfigurer*/ {
+//    private final WebSocketHandler webSocketHandler;
+//    @Override
+//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+//        registry.addHandler(webSocketHandler, "ws/chat").setAllowedOrigins("*");
+//
+//    }
 }

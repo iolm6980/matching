@@ -37,8 +37,6 @@ public class match {
                 .lineList(3)
                 .build();
         ChatRoom chat = ChatRoom.builder()
-                .name("test")
-                .game(Game.LOL)
                 .gameType(GameType.NORMAL)
                 .tier(Tier.GOLD)
                 .line(Line.MID)
@@ -46,8 +44,6 @@ public class match {
                 .build();
 
         ChatRoom chat1 = ChatRoom.builder()
-                .name("test1")
-                .game(Game.LOL)
                 .gameType(GameType.NORMAL)
                 .tier(Tier.GOLD)
                 .line(Line.MID)
@@ -60,8 +56,6 @@ public class match {
         IntStream.rangeClosed(1,300).forEach(
                 i ->{
                     ChatRoom chatRoom = ChatRoom.builder()
-                            .name(String.valueOf(i))
-                            .game(Game.LOL)
                             .gameType(GameType.getRandom())
                             .tier(Tier.getRandom())
                             .line(Line.getRandom())
@@ -74,7 +68,7 @@ public class match {
         System.out.println("-------------------------------------------------------------------------");
         lol.show();
         System.out.println("-------------------------------------------------------------------------");
-        list.forEach(chatRoom -> System.out.println( chatRoom.getName() + " / " + chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / "
+        list.forEach(chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / "
                 + Integer.toBinaryString(chatRoom.getLineList())));
     }
 

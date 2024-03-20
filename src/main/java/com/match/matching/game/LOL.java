@@ -40,7 +40,7 @@ public class LOL implements Game{
 
     public void show(){
         chatRooms.stream().forEach(
-                chatRoom -> System.out.println(chatRoom.getName() + " / " + chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
+                chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
     public void length(){
