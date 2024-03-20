@@ -62,13 +62,13 @@ public class ChatService {
 
     public void enterPlayer(Player player){
         game =  gameFactory.getGame(player); // 플레이어가 선택한 게임에 따라 게임을 반환함
-        List<ChatRoom> list = game.filteringRoom(player); // 플레이어가 선택한 조건에 맞는 리스트를 가져옴 롤에경우에는 게임과 게임타입으로 나뉜것
+        List<ChatRoom> list = game.getFilteringRoom(player); // 플레이어가 선택한 조건에 맞는 리스트를 가져옴 롤에경우에는 게임과 게임타입으로 나뉜것
         if(list.size() == 0) // 만약 현재 플레이어가 입장할수 있는 방이 없으면 새로운 방을 만든다.
         {
             ChatRoom chatRoom = createRoom(player);
             game.add(chatRoom);
         }else{ // 만약 있다면 인원수나 라인을 매칭하는 알고리즘을 써 채팅방에 넣어준다
-
+            //list.get(0)
         }
     }
     public void seeList(List<ChatRoom> list){

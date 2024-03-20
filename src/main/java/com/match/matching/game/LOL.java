@@ -18,13 +18,16 @@ import java.util.stream.Collectors;
 public class LOL implements Game{
     List<ChatRoom> chatRooms  = new ArrayList<>(); //롤 현재 생성되어있는 채팅방 리스트
     @Override
-    public List<ChatRoom> filteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
+    public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
         System.out.println("lol");
         List<ChatRoom> filterList =
                 chatRooms.stream()
                         .filter(equalType(player))
                         .filter(equalTier(player))
                         .filter(filterLine(player))
+                        //.filter(filterPerson(player)) // 구하는 인원과 현재 인원이 같은것들을 반환
+                        //인원수 별로 핉터링
+                        //현재 있는 방에서 조건을 만족할수있는 방이 있으면 방을 합침
                         .collect(Collectors.toList());
 
         return filterList;
@@ -37,7 +40,7 @@ public class LOL implements Game{
 
     public void show(){
         chatRooms.stream().forEach(
-                chatRoom -> System.out.println(chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
+                chatRoom -> System.out.println(chatRoom.getName() + " / " + chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
     public void length(){
@@ -58,6 +61,10 @@ public class LOL implements Game{
         else if(player.getLine() == Line.ALL) return room -> true; // 모든라인이 가능한경우에도 라인에 상관없이 반환
         else return room -> (room.getLineList() & lineToInt(player.getLine())) > 0; //플레이어의 라인을 가진 방을 반환
     }
+
+//    private Predicate<ChatRoom> filterPerson(Player player){
+//        return r-> ((player.getCurrentPerson() == r.getNeedPerson()) && (player.getNeedPerson() == r.getCurrentPerson()));
+//    }
     
     private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
         if(line == Line.TOP) return (1 << 0);

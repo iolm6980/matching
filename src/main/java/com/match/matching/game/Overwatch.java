@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class Overwatch implements Game{
     @Override
-    public List<ChatRoom> filteringRoom(Player player) {
+    public List<ChatRoom> getFilteringRoom(Player player) {
         System.out.println("overwatch");
         return null;
     }

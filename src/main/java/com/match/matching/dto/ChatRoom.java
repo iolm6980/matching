@@ -21,9 +21,9 @@ public class ChatRoom {
     private Game game;
     private Tier tier;
     private GameType gameType;
-    private int people;
     private Line line;
     private int lineList;
+    private int maxPeople;
     @Builder.Default
     private Set<WebSocketSession> sessions = new HashSet<>();
 
@@ -39,4 +39,10 @@ public class ChatRoom {
     public<T> void sendMessage(T message, ChatService chatService){
         sessions.parallelStream().forEach(session -> chatService.sendMessage(session, message));
     }
+
+    public void enterPlayer(){
+
+    }
+
+
 }
