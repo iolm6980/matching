@@ -19,7 +19,6 @@ public class LOL implements Game{
     List<ChatRoom> chatRooms  = new ArrayList<>(); //롤 현재 생성되어있는 채팅방 리스트
     @Override
     public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
-        System.out.println("lol");
         List<ChatRoom> filterList =
                 chatRooms.stream()
                         .filter(equalType(player))

@@ -11,6 +11,9 @@ import com.match.matching.game.LOL;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.springframework.messaging.MessageDeliveryException;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -30,12 +33,12 @@ public class ChatService {
     private final GameFactory gameFactory;
     private Game game;
     private Map<String, ChatRoom> chatRoomMap;
-
+    private Map<String, ChatRoom> sessionRoomMap;
     @PostConstruct
     private void init(){
         chatRoomMap = new LinkedHashMap<>();
+        sessionRoomMap = new LinkedHashMap<>();
     }
-
     public ChatRoom findRoomById(String id){
         return chatRoomMap.get(id);
     }
@@ -49,13 +52,20 @@ public class ChatService {
             game.add(chatRoom);
             chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
             return chatRoom.getRoomId();
-        }else{ // 만약 있다면 인원수나 라인을 매칭하는 알고리즘을 써 채팅방에 넣어준다
+        }else{ // 만약 있다면 채팅방에 넣어준다
             return list.get(0).getRoomId();
         }
     }
-    public void seeList(List<ChatRoom> list){
-        list.stream().forEach(room ->{
-            System.out.println( " / "+room.getTier() + " / " + room.getGameType());
-        });
+
+    public void enterPlayer(String session ,String roomId){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
+        ChatRoom room = chatRoomMap.get(roomId);
+        room.enterPlayer(); // 현재방에 인원수를 하나 더한다.
+        sessionRoomMap.put(session, room);
+    }
+
+    public void outPlayer(String session){ // enterPlayer 저장해놓은 세션을 이용해 방을 찾은 뒤 한명을 빼준다
+        ChatRoom room = sessionRoomMap.get(session);
+        room.outPlayer();
+        sessionRoomMap.remove(session);
     }
 }

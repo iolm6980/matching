@@ -1,70 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/match.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오톡 스타일 채팅 페이지</title>
+</head>
+<body>
+<div id="container">
+    <div id="message-area">
+        <ul id="message-list">
+            <!-- 메시지가 추가되는 부분 -->
+        </ul>
+    </div>
+    <div id="input-area">
+        <input type="text" id="msg" placeholder="메시지 입력...">
+        <button id="send-button">전송</button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        var roomId = [[${room.roomId}]];
+        var username = [[${line}]];
+        var sockJs = new SockJS("/stomp/chat");
 
-    <th:block th:fragment="content">
+        console.log( roomId + ", " + username);
 
-        <div class="container">
-            <div class="col-6">
-            </div>
-            <div>
-                <div id="msgArea" class="col"></div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <input type="text" id="msg" class="form-control">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6"></div>
-        </div>
-    </th:block>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script th:inline="javascript">
-            $(document).ready(function(){
-                var roomId = [[${room.roomId}]];
-                var username = [[${line}]];
-                var sockJs = new SockJS("/stomp/chat");
+        //2. connection이 맺어지면 실행
+        if([[${room.currentPeople}]] < [[${room.maxPeople}]]){
+            var stomp = Stomp.over(sockJs);
 
+            stomp.connect({}, function (){
+                console.log("STOMP Connection")
 
-                console.log( roomId + ", " + username);
-                //1. SockJS를 내부에 들고있는 stomp를 내어줌
-                var stomp = Stomp.over(sockJs);
+                //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                    var content = JSON.parse(chat.body);
+                    var writer = content.writer;
 
-                //2. connection이 맺어지면 실행
-                stomp.connect({}, function (){
-                   console.log("STOMP Connection")
+                    var str = '';
 
-                   //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-                   stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                       var content = JSON.parse(chat.body);
-                       var writer = content.writer;
-                       console.log("받음... ooo" + content.message);
+                    if (writer === username) {
+                        str = "<div class='message-container user-message-container'>";
+                    } else {
+                        str = "<div class='message-container other-message-container'>";
+                        str += "<span class='sender-name'>" + writer + "</span>";
+                    }
 
-                       var str = '';
+                    str += "<div class='message'>";
+                    str += content.message;
+                    str += "</div></div>";
+                    $("#message-list").append(str);
 
-                       str = "<div class='col-6'>";
-                       str += "<div class='alert alert-warning'>";
-                       str += "<b>" + writer + " : " + content.message + "</b>";
-                       str += "</div></div>";
-                       $("#msgArea").append(str);
-                   });
-
-                   //3. send(path, header, message)로 메세지를 보낼 수 있음
-                   stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+                    // 스크롤을 아래로 이동
+                    document.getElementById('message-area').scrollTop = document.getElementById('message-area').scrollHeight;
                 });
 
-                $("#button-send").on("click", function(e){
-                    var msg = document.getElementById("msg");
-
-                    console.log("보냄... ooo" + ":" + msg.value);
-                    stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
-                    msg.value = '';
-                });
+                //3. send(path, header, message)로 메세지를 보낼 수 있음
+                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
             });
-        </script>
+        }else{
+            alert("방의 인원이 가득차있습니다");
+            location.replace("/chat/main");
+        }
 
+        $("#send-button").on("click", function(e){
+            var msg = document.getElementById("msg");
+            stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
+            msg.value = '';
+        });
+    });
+</script>
+</body>
 </html>

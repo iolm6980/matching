@@ -19,31 +19,30 @@ public class ChatRoom {
     private Line line;
     private int lineList;
     private int maxPeople;
-
+    private int currentPeople;
     public ChatRoom(Player player){
         roomId = UUID.randomUUID().toString();
         tier = player.getTier();
         gameType = player.getGameType();
         line = player.getLine();
         lineList = player.getLineList();
-        maxPeople = player.getMaxPeople();
+        currentPeople = 0;
+        maxPeople = setMaxPeople(player.getGameType());
     }
 
-//    @Builder.Default
-//    private Set<WebSocketSession> sessions = new HashSet<>();
+    public int setMaxPeople(GameType gameType){
+        switch (gameType){
+            case DOURANK: return 2;
+            case TEAMRANK, NORMAL, ARAM: return 5;
+            case TFT: return 8;
+            default: return 0;
+        }
+    }
 
-
-//    public void handleActions(WebSocketSession session, ChatMsg chatMsg, ChatService chatService){
-//        if (chatMsg.getType().equals(ChatMsg.MessageType.ENTER)) {
-//            sessions.add(session);
-//            chatMsg.setMessage((chatMsg.getSender()) + "님이 입장했습니다.");
-//        }
-//        sendMessage(chatMsg, chatService);
-//    }
-//
-//    public<T> void sendMessage(T message, ChatService chatService){
-//        sessions.parallelStream().forEach(session -> chatService.sendMessage(session, message));
-//    }
+    public void enterPlayer(){
+        currentPeople++;
+    }
+    public void outPlayer(){currentPeople--;}
 
 
 }

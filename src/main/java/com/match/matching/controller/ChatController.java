@@ -19,7 +19,6 @@ public class ChatController {
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatMsg message){
-        System.out.println("메세지 받음................" + message.getMessage() + " / " + message.getRoomId());
        // message.setMessage(message.getMessage()); //이거 지우면 메시지가 화면에 출력이 안된다 setAllowedOrigins -> setAllowedOriginPatterns 로 바꿔줬더니 지워도 실행이 된다
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
@@ -27,6 +26,12 @@ public class ChatController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMsg message){
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
+        messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+    }
+
+    @MessageMapping(value = "/chat/out")
+    public void out(ChatMsg message){
+        message.setMessage(message.getWriter() + "님이 퇴장하였습니다.");
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
