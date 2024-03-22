@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form action="/chat/match" method="post">
+  <select name="game" class="form-select" aria-label="Game">
+    <option selected>게임 종류</option>
+    <option value="LOL">LOL</option>
+    <option value="OVERWATCH">오버워치</option>
+    <option value="PUBG">배틀그라운드</option>
+  </select>
+
+
+  <select name="gameType" class="form-select" aria-label="GameType">
+    <option selected>게임 타입</option>
+    <option value="ARAM">자유랭크</option>
+    <option value="TFT">TFT</option>
+    <option value="DOURANK">듀오랭크</option>
+    <option value="TEAMRANK">팀랭크</option>
+    <option value="NORMAL">일반게임</option>
+  </select>
+
+  <select name="tier" class="form-select" aria-label="Tier">
+    <option selected>티어</option>
+    <option value="BRONZE">브론즈</option>
+    <option value="SILVER">실버</option>
+    <option value="GOLD">골드</option>
+    <option value="PLATINUM">플레티넘</option>
+    <option value="EMERALD">에메랄드</option>
+    <option value="DIAMOND">다이아몬드</option>
+    <option value="MASTER">마스터</option>
+    <option value="CHALLENGER">챌린저</option>
+  </select>
+
+  <select name="line" class="form-select" aria-label="line">
+    <option selected>라인</option>
+    <option value="TOP">탑</option>
+    <option value="JUNGLE">정글</option>
+    <option value="MID">미드</option>
+    <option value="AD">원딜</option>
+    <option value="SUPPORTER">서폿</option>
+  </select>
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="0" id="top">
+    <label class="form-check-label" for="top">
+      탑
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="1" id="jg">
+    <label class="form-check-label" for="jg">
+      정글
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="2" id="mid">
+    <label class="form-check-label" for="mid">
+      미드
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="3" id="ad">
+    <label class="form-check-label" for="ad">
+      원딜
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="4" id="sp">
+    <label class="form-check-label" for="sp">
+      서폿
+    </label>
+  </div>
+
+  <input type="hidden" id="lineList" name="lineList" value="0">
+
+  <button>매칭하기</button>
+</form>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var list = parseInt(0);
+    $(".form-check-input").change(function(){
+        if($(this).is(":checked"))list = list | (1 << $(this).val());
+        else list = list ^ (1 << $(this).val());
+        $("#lineList").val(list);
+        console.log(list);
+    });
+</script>
+</html>
