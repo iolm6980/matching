@@ -5,6 +5,98 @@
     <link href="/css/match.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>카카오톡 스타일 채팅 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+        #container {
+            width: 40%;
+            height: 90%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 위 아래 여백을 동일하게 설정 */
+        }
+        #message-area {
+            height: 100vh;
+            overflow-y: scroll;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        #message-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-message-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            max-width: 50%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+        }
+        .other-message-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 15px; /* 모서리를 둥글게 조정 */
+            font-size: 16px;
+            max-width: 100%;
+            white-space: pre-wrap; /* 공백은 유지하고 단어 단위로 줄 바꿈합니다. */
+        }
+        .user-message {
+            background-color: #dcf8c6; /* 사용자 메시지 배경색 변경 */
+            border-radius: 100px; /* 모서리를 둥글게 조정 */
+        }
+
+        .other-message {
+            background-color: #e6f2ff; /* 다른 사용자 메시지 배경색 변경 */
+            border-radius: 30px; /* 모서리를 둥글게 조정 */
+        }
+        .sender-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        #input-area {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        #msg {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px; /* 입력 폼 글자 크기 조정 */
+        }
+        #send-button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #send-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <div id="container">
@@ -44,15 +136,13 @@
                     var str = '';
 
                     if (writer === username) {
-                        str = "<div class='message-container user-message-container'>";
+                        str = "<li class='user-message-container'><div class='message user-message'>";
                     } else {
-                        str = "<div class='message-container other-message-container'>";
-                        str += "<span class='sender-name'>" + writer + "</span>";
+                        str = "<li class='other-message-container'><span class='sender-name'>" + writer + "</span><div class='message other-message'>";
                     }
 
-                    str += "<div class='message'>";
                     str += content.message;
-                    str += "</div></div>";
+                    str += "</div></li>";
                     $("#message-list").append(str);
 
                     // 스크롤을 아래로 이동
