@@ -1,0 +1,135 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+        #outer-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #left-container ,
+        #right-container{
+            width: 20%; /* 변경 가능한 너비 */
+            height: 90%;
+            display: flex;
+            justify-content: center; /* 수평 가운데 정렬 */
+        }
+        #center-container {
+            width: 40%; /* 변경 가능한 너비 */
+            height: 90%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 위 아래 여백을 동일하게 설정 */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+        #container {
+            width: 40%;
+            height: 90%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 위 아래 여백을 동일하게 설정 */
+        }
+        #message-area {
+            height: 100vh;
+            overflow-y: scroll;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        #message-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-message-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            max-width: 70%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+            align-self: flex-end; /* 오른쪽 정렬 */
+        }
+        .other-message-container {
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            max-width: 70%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+            align-self: flex-start; /* 왼쪽 정렬 */
+        }
+        .message {
+            padding: 10px;
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
+            font-size: 16px;
+            max-width: 100%;
+            white-space: pre-wrap; /* 공백은 유지하고 단어 단위로 줄 바꿈합니다. */
+        }
+        .user-message {
+            background-color: #dcf8c6; /* 사용자 메시지 배경색 변경 */
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
+        }
+
+        .message.other-message {
+            background-color: #e6f2ff; /* 다른 사용자 메시지 배경색 변경 */
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
+        }
+        .sender-name {
+            font-weight: bold;
+            color: #666; /* 말풍선 내부에 텍스트 컬러 */
+            background-color: #f2f2f2; /* sender-name 배경색 */
+            display: inline-block; /* 영역을 인라인 블록으로 설정 */
+        }
+
+        #input-area {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        #msg {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px; /* 입력 폼 글자 크기 조정 */
+        }
+        #send-button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #send-button:hover {
+            background-color: #45a049;
+        }
+        .sender-color{
+            width 100%;
+            background-color: #f2f2f2;
+        }
