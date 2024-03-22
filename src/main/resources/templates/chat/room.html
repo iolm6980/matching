@@ -44,33 +44,38 @@
             display: flex;
             justify-content: flex-end;
             margin-bottom: 10px;
-            max-width: 50%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+            max-width: 70%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+            align-self: flex-end; /* 오른쪽 정렬 */
         }
         .other-message-container {
-            display: flex;
             justify-content: flex-start;
             margin-bottom: 10px;
+            max-width: 70%; /* 메시지 리스트의 절반 너비만큼 차지하도록 설정 */
+            align-self: flex-start; /* 왼쪽 정렬 */
         }
         .message {
             padding: 10px;
-            border-radius: 15px; /* 모서리를 둥글게 조정 */
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
             font-size: 16px;
             max-width: 100%;
             white-space: pre-wrap; /* 공백은 유지하고 단어 단위로 줄 바꿈합니다. */
         }
         .user-message {
             background-color: #dcf8c6; /* 사용자 메시지 배경색 변경 */
-            border-radius: 100px; /* 모서리를 둥글게 조정 */
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
         }
 
-        .other-message {
+        .message.other-message {
             background-color: #e6f2ff; /* 다른 사용자 메시지 배경색 변경 */
-            border-radius: 30px; /* 모서리를 둥글게 조정 */
+            border-radius: 8px; /* 모서리를 둥글게 조정 */
         }
         .sender-name {
             font-weight: bold;
-            margin-bottom: 5px;
+            color: #666; /* 말풍선 내부에 텍스트 컬러 */
+            background-color: #f2f2f2; /* sender-name 배경색 */
+            display: inline-block; /* 영역을 인라인 블록으로 설정 */
         }
+
         #input-area {
             display: flex;
             align-items: center;
@@ -81,7 +86,7 @@
             flex: 1;
             padding: 5px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px; /* 입력 폼 글자 크기 조정 */
         }
         #send-button {
@@ -95,6 +100,10 @@
         }
         #send-button:hover {
             background-color: #45a049;
+        }
+        .sender-color{
+            width 100%;
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -138,7 +147,7 @@
                     if (writer === username) {
                         str = "<li class='user-message-container'><div class='message user-message'>";
                     } else {
-                        str = "<li class='other-message-container'><span class='sender-name'>" + writer + "</span><div class='message other-message'>";
+                        str = "<li class='other-message-container'><div class='sender-color'><span class='sender-name'>" + writer + "</span></div><div class='message other-message'>";
                     }
 
                     str += content.message;
@@ -156,6 +165,7 @@
             alert("방의 인원이 가득차있습니다");
             location.replace("/chat/main");
         }
+
 
         $("#send-button").on("click", function(e){
             var msg = document.getElementById("msg");
