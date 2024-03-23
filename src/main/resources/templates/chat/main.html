@@ -91,10 +91,18 @@
             font-size: 14px;
             margin-top: 5px;
         }
+
+        .game-option {
+            display: none; /* 모든 게임 옵션 숨김 */
+        }
+
+        .game-option.show {
+            display: block; /* 선택된 게임에 따라 해당하는 게임 옵션만 표시 */
+        }
     </style>
 </head>
 <body>
-<form action="/chat/match" method="post" onsubmit="return validateForm()">
+<form action="/chat/match" method="post">
     <h1>게임 선택하기</h1>
     <label for="game">게임 종류:</label>
     <select id="game" name="game" onchange="showOptions()">
@@ -166,7 +174,7 @@
         </div>
     </div>
 
-    <div id="overwatchOptions" class="game-option">
+    <div id="overwatchOptions" class="game-option" >
         <!-- 오버워치 옵션 -->
         <label>게임 타입:</label>
         <select name="rank">
@@ -203,32 +211,20 @@
 
         <label>구하는 라인:</label>
         <div class="checkbox-wrapper">
-            <label>탱커1</label>
+            <label>탱커</label>
             <input class="form-check-input" type="checkbox" value="0">
         </div>
         <div class="checkbox-wrapper">
-            <label>탱커2</label>
+            <label>딜러</label>
             <input class="form-check-input" type="checkbox" value="1">
         </div>
         <div class="checkbox-wrapper">
-            <label>딜러1</label>
+            <label>힐러</label>
             <input class="form-check-input" type="checkbox" value="2">
         </div>
-        <div class="checkbox-wrapper">
-            <label>딜러2</label>
-            <input class="form-check-input" type="checkbox" value="3">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>힐러1</label>
-            <input class="form-check-input" type="checkbox" value="4">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>힐러2</label>
-            <input class="form-check-input" type="checkbox" value="5">
-        </div>
-    </div>
+    </div >
 
-    <div id="pubgOptions" class="game-option">
+    <div id="pubgOptions" class="game-option" >
         <!-- 배틀그라운드 옵션 -->
         <label>게임 타입:</label>
         <select name="rank">
@@ -313,32 +309,72 @@
         }
 
         if (backgroundImageUrl !== '') {
-            // 배경 이미지 설정
             document.body.style.backgroundImage = backgroundImageUrl;
-            // 배경 이미지 투명도 설정
-            document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 투명도 조절
         } else {
-            // 배경 이미지 없을 경우 배경 초기화
             document.body.style.backgroundImage = "none";
-            document.body.style.backgroundColor = "transparent"; // 배경 투명도 초기화
         }
     }
 
-    function validateForm() {
-        var game = document.getElementById("game").value;
-        var gameType = document.getElementById("gameType").value;
-        var tier = document.getElementById("tier").value;
-        var lineList = document.getElementById("lineList").value;
+    document.addEventListener("DOMContentLoaded", function() {
+    var form = document.querySelector('form');
 
-        if (game === "" || gameType === "" || tier === "" || checkedCount === 0) {
-            document.getElementById("errorMessage").style.display = "block";
-            document.getElementById("errorMessage").innerText = "모든 필드를 입력하십시오.";
-            return false;
-        } else {
-            document.getElementById("errorMessage").style.display = "none";
-            return true;
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 제출 행동 방지
+
+        var selectedGame = document.getElementById("game").value;
+        var errorMessage = document.getElementById("errorMessage");
+
+        // 게임 선택 여부 확인
+        if (selectedGame === "") {
+            errorMessage.innerText = "게임을 선택해주세요.";
+            errorMessage.style.display = "block";
+            return; // 검증 실패 시 제출 중지
         }
-    }
+
+        // 선택된 게임에 따라 필수 옵션 확인
+        if (selectedGame === "LOL") {
+            var rank = document.getElementsByName("rank")[0].value;
+            var tier = document.getElementsByName("tier")[0].value;
+            var lineList = document.getElementById("lineList").value;
+
+            // 필수 옵션 확인
+            if (rank === "" || tier === "" || lineList === "0") {
+                errorMessage.innerText = "모든 필수 항목을 선택해주세요.";
+                errorMessage.style.display = "block";
+                return; // 검증 실패 시 제출 중지
+            }
+        } else if (selectedGame === "OVERWATCH") {
+            var rank = document.getElementsByName("rank")[1].value;
+            var tier = document.getElementsByName("tier")[1].value;
+            var lineList = document.getElementById("lineList").value;
+
+            // 필수 옵션 확인
+            if (rank === "" || tier === "" || lineList === "0") {
+                errorMessage.innerText = "모든 필수 항목을 선택해주세요.";
+                errorMessage.style.display = "block";
+                return; // 검증 실패 시 제출 중지
+            }
+        } else if (selectedGame === "PUBG") {
+            var rank = document.getElementsByName("rank")[2].value;
+            var tier = document.getElementsByName("tier")[2].value;
+
+            // 필수 옵션 확인
+            if (rank === "" || tier === "") {
+                errorMessage.innerText = "모든 필수 항목을 선택해주세요.";
+                errorMessage.style.display = "block";
+                return; // 검증 실패 시 제출 중지
+            }
+        }
+
+        // 모든 필수 항목이 선택되었을 때 오류 메시지 숨김
+        errorMessage.style.display = "none";
+
+        // 모든 검증을 통과하면 양식 제출
+        form.submit();
+    });
+});
+
+
 </script>
 </body>
 </html>

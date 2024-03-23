@@ -25,9 +25,6 @@ public class LOL implements Game{
                         .filter(equalType(player))
                         .filter(equalTier(player))
                         .filter(filterLine(player))
-                        //.filter(filterPerson(player)) // 구하는 인원과 현재 인원이 같은것들을 반환
-                        //인원수 별로 핉터링
-                        //현재 있는 방에서 조건을 만족할수있는 방이 있으면 방을 합침
                         .collect(Collectors.toList());
 
         return filterList;
@@ -41,19 +38,6 @@ public class LOL implements Game{
     public void show(){
         chatRooms.stream().forEach(
                 chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
-    }
-
-    public void length(){
-        System.out.println(chatRooms.size());
-    }
-
-    private Predicate<ChatRoom> equalTier(Player player){ // 플레이어가 선택한 티어와 같은것을 필터링한다
-        return room -> room.getTier() == player.getTier();
-    }
-    private Predicate<ChatRoom> equalRank(Player player){return room -> room.getRank() == player.getRank();}
-
-    private Predicate<ChatRoom> equalType(Player player){ // 게임 타입별(칼바람, 협곡)로 필터링
-        return room -> room.getGameType() == player.getGameType();
     }
 
     private Predicate<ChatRoom> filterLine(Player player){ // 라인별로 필터링

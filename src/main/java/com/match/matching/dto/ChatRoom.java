@@ -33,17 +33,23 @@ public class ChatRoom {
         line = player.getLine();
         lineList = player.getLineList();
         currentPlayer = 0;
-        maxPlayer = setMaxPeople(player.getGameType());
+        maxPlayer = setMaxPeople(player);
         sessionMap = new HashMap<>();
     }
 
-    public int setMaxPeople(GameType gameType){
-        switch (gameType){
-            case DOU: return 2;
-            case TEAM, ARAM: return 5;
-            case TFT: return 8;
-            default: return 0;
-        }
+    public int setMaxPeople(Player player){
+        System.out.println("테스트...................." + player.getGameType());
+        return 0;
+//        switch (player.getGameType()){
+//            case DOU: return 2;
+//            case TRIO: return 3;
+//            case TEAM, ARAM:
+//                if(player.getGame() == Game.PUBG) return 4;
+//                else return 5;
+//            case FIXEDROLE, FREEROLE: return 6;
+//            case TFT: return 8;
+//            default: return 0;
+//        }
     }
 
     public void enterPlayer(){
