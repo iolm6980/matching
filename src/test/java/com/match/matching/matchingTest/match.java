@@ -42,48 +42,48 @@ public class match {
 
     @Test
     public void player(){
-        LOL lol = new LOL();
-        Player player = Player.builder()
-                .game(Game.LOL)
-                .gameType(GameType.NORMAL)
-                .tier(Tier.GOLD)
-                .line(Line.TOP)
-                .lineList(3)
-                .build();
-        ChatRoom chat = ChatRoom.builder()
-                .gameType(GameType.NORMAL)
-                .tier(Tier.GOLD)
-                .line(Line.MID)
-                .lineList(3)
-                .build();
-
-        ChatRoom chat1 = ChatRoom.builder()
-                .gameType(GameType.NORMAL)
-                .tier(Tier.GOLD)
-                .line(Line.MID)
-                .lineList(31)
-                .build();
-        lol.add(chat);
-        lol.add(chat1);
-
-        System.out.println(player.getGameType() + " / " + player.getTier() + " / " + player.getLine());
-        IntStream.rangeClosed(1,300).forEach(
-                i ->{
-                    ChatRoom chatRoom = ChatRoom.builder()
-                            .gameType(GameType.getRandom())
-                            .tier(Tier.getRandom())
-                            .line(Line.getRandom())
-                            .lineList((int) (Math.random() * 31))
-                            .build();
-                    lol.add(chatRoom);
-                }
-        );
-        List<ChatRoom> list = lol.getFilteringRoom(player);
-        System.out.println("-------------------------------------------------------------------------");
-        lol.show();
-        System.out.println("-------------------------------------------------------------------------");
-        list.forEach(chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / "
-                + Integer.toBinaryString(chatRoom.getLineList())));
+//        LOL lol = new LOL();
+////        Player player = Player.builder()
+////                .game(Game.LOL)
+////                .gameType(GameType.NORMAL)
+////                .tier(Tier.GOLD)
+////                .line(Line.TOP)
+////                .lineList(3)
+////                .build();
+////        ChatRoom chat = ChatRoom.builder()
+////                .gameType(GameType.NORMAL)
+////                .tier(Tier.GOLD)
+////                .line(Line.MID)
+////                .lineList(3)
+////                .build();
+////
+////        ChatRoom chat1 = ChatRoom.builder()
+////                .gameType(GameType.NORMAL)
+////                .tier(Tier.GOLD)
+////                .line(Line.MID)
+////                .lineList(31)
+////                .build();
+////        lol.add(chat);
+////        lol.add(chat1);
+//
+//       // System.out.println(player.getGameType() + " / " + player.getTier() + " / " + player.getLine());
+//        IntStream.rangeClosed(1,300).forEach(
+//                i ->{
+//                    ChatRoom chatRoom = ChatRoom.builder()
+//                            .gameType(GameType.getRandom())
+//                            .tier(Tier.getRandom())
+//                            .line(Line.getRandom())
+//                            .lineList((int) (Math.random() * 31))
+//                            .build();
+//                    lol.add(chatRoom);
+//                }
+//        );
+//        List<ChatRoom> list = lol.getFilteringRoom(player);
+//        System.out.println("-------------------------------------------------------------------------");
+//        lol.show();
+//        System.out.println("-------------------------------------------------------------------------");
+//        list.forEach(chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / "
+//                + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
 

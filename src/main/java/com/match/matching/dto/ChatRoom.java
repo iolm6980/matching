@@ -16,6 +16,7 @@ public class ChatRoom {
     private String roomId;
     private Game game;
     private Tier tier;
+    private Rank rank;
     private GameType gameType;
     private Line line;
     private int lineList;
@@ -27,6 +28,7 @@ public class ChatRoom {
         roomId = UUID.randomUUID().toString();
         game = player.getGame();
         tier = player.getTier();
+        rank = player.getRank();
         gameType = player.getGameType();
         line = player.getLine();
         lineList = player.getLineList();
@@ -37,8 +39,8 @@ public class ChatRoom {
 
     public int setMaxPeople(GameType gameType){
         switch (gameType){
-            case DOURANK: return 2;
-            case TEAMRANK, NORMAL, ARAM: return 5;
+            case DOU: return 2;
+            case TEAM, ARAM: return 5;
             case TFT: return 8;
             default: return 0;
         }

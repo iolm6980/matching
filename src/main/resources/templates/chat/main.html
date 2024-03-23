@@ -26,7 +26,7 @@
         }
 
         form {
-            width: 400px; /* 이전과 동일한 넓이 */
+            width: 30%; /* 이전과 동일한 넓이 */
             margin: 20px auto;
             background-color: rgba(255, 255, 255, 1);
             padding: 30px; /* 내부 패딩을 더 크게 설정하여 내용을 강조 */
@@ -57,12 +57,12 @@
             box-sizing: border-box;
         }
 
-        #gameOptions {
-            display: none;
+        .game-option {
+            display: none; /* 모든 게임 옵션 숨김 */
         }
 
-        #gameOptions.show {
-            display: block;
+        .game-option.show {
+            display: block; /* 선택된 게임에 따라 해당하는 게임 옵션만 표시 */
         }
 
         .checkbox-wrapper {
@@ -103,19 +103,25 @@
         <option value="PUBG">배틀그라운드 (PUBG)</option>
     </select>
 
-    <div id="gameOptions">
-        <label for="gameType">게임 타입:</label>
-        <select id="gameType" name="gameType">
-            <option value="">게임 타입 선택</option>
-            <option value="TEAMRANK">자유랭크</option>
-            <option value="DOURANK">듀오랭크</option>
+    <div id="gameOptions" class="game-option">
+        <!-- 롤 옵션 -->
+        <label>게임 타입:</label>
+        <select name="rank">
             <option value="NORMAL">일반게임</option>
+            <option value="RANK">랭크게임</option>
+        </select>
+
+        <!-- 롤 추가 옵션 -->
+        <select name="gameType">
+            <option value="">게임 타입 선택</option>
+            <option value="TEAM">자유</option>
+            <option value="DOU">듀오</option>
             <option value="ARAM">칼바람</option>
             <option value="TFT">TFT (Teamfight Tactics)</option>
         </select>
 
         <label>티어:</label>
-        <select id="tier" name="tier">
+        <select name="tier">
             <option value="">티어 선택</option>
             <option value="BRONZE">브론즈</option>
             <option value="SILVER">실버</option>
@@ -128,7 +134,7 @@
         </select>
 
         <label>라인:</label>
-        <select id="line" name="line">
+        <select name="line">
             <option value="">라인 선택</option>
             <option value="TOP">탑</option>
             <option value="MID">미드</option>
@@ -139,40 +145,133 @@
 
         <label>구하는 라인:</label>
         <div class="checkbox-wrapper">
-            <label for="mid">미드</label>
-            <input class="form-check-input" type="checkbox" id="mid" value="0">
+            <label>미드</label>
+            <input class="form-check-input" type="checkbox" value="0">
         </div>
         <div class="checkbox-wrapper">
-            <label for="top">탑</label>
-            <input class="form-check-input" type="checkbox" id="top" value="1">
+            <label>탑</label>
+            <input class="form-check-input" type="checkbox" value="1">
         </div>
         <div class="checkbox-wrapper">
-            <label for="jungle">정글</label>
-            <input class="form-check-input" type="checkbox" id="jungle" value="2">
+            <label>정글</label>
+            <input class="form-check-input" type="checkbox" value="2">
         </div>
         <div class="checkbox-wrapper">
-            <label for="ad">원딜</label>
-            <input class="form-check-input" type="checkbox" id="ad" value="3">
+            <label>원딜</label>
+            <input class="form-check-input" type="checkbox" value="3">
         </div>
         <div class="checkbox-wrapper">
-            <label for="supporter">서폿</label>
-            <input class="form-check-input" type="checkbox" id="supporter" value="4">
+            <label>서폿</label>
+            <input class="form-check-input" type="checkbox" value="4">
         </div>
     </div>
+
+    <div id="overwatchOptions" class="game-option">
+        <!-- 오버워치 옵션 -->
+        <label>게임 타입:</label>
+        <select name="rank">
+            <option value="NORMAL">일반게임</option>
+            <option value="RANK">랭크게임</option>
+        </select>
+
+        <!-- 오버워치 추가 옵션 -->
+        <select name="gameType">
+            <option value="">게임 타입 선택</option>
+            <option value="FIXEDROLE">역할고정</option>
+            <option value="FREEROLE">자유</option>
+        </select>
+
+        <label>티어:</label>
+        <select name="tier">
+            <option value="">티어 선택</option>
+            <option value="BRONZE">브론즈</option>
+            <option value="SILVER">실버</option>
+            <option value="GOLD">골드</option>
+            <option value="PLATINUM">플래티넘</option>
+            <option value="DIAMOND">다이아</option>
+            <option value="MASTER">마스터</option>
+            <option value="GRANDMASTER">그랜드마스터</option>
+        </select>
+
+        <label>라인:</label>
+        <select name="line">
+            <option value="">라인 선택</option>
+            <option value="TANKER">탱커</option>
+            <option value="DEALER">딜러</option>
+            <option value="HEALER">힐러</option>
+        </select>
+
+        <label>구하는 라인:</label>
+        <div class="checkbox-wrapper">
+            <label>탱커1</label>
+            <input class="form-check-input" type="checkbox" value="0">
+        </div>
+        <div class="checkbox-wrapper">
+            <label>탱커2</label>
+            <input class="form-check-input" type="checkbox" value="1">
+        </div>
+        <div class="checkbox-wrapper">
+            <label>딜러1</label>
+            <input class="form-check-input" type="checkbox" value="2">
+        </div>
+        <div class="checkbox-wrapper">
+            <label>딜러2</label>
+            <input class="form-check-input" type="checkbox" value="3">
+        </div>
+        <div class="checkbox-wrapper">
+            <label>힐러1</label>
+            <input class="form-check-input" type="checkbox" value="4">
+        </div>
+        <div class="checkbox-wrapper">
+            <label>힐러2</label>
+            <input class="form-check-input" type="checkbox" value="5">
+        </div>
+    </div>
+
+    <div id="pubgOptions" class="game-option">
+        <!-- 배틀그라운드 옵션 -->
+        <label>게임 타입:</label>
+        <select name="rank">
+            <option value="NORMAL">일반게임</option>
+            <option value="RANK">랭크게임</option>
+        </select>
+
+        <!-- 배틀그라운드 추가 옵션 -->
+        <select name="gameType">
+            <option value="">게임 타입 선택</option>
+            <option value="DUO">2인큐</option>
+            <option value="TRIO">3인큐</option>
+            <option value="TEAM">4인큐</option>
+        </select>
+
+        <label>티어:</label>
+        <select name="tier">
+            <option value="">티어 선택</option>
+            <option value="BRONZE">브론즈</option>
+            <option value="SILVER">실버</option>
+            <option value="GOLD">골드</option>
+            <option value="PLATINUM">플래티넘</option>
+            <option value="DIAMOND">다이아</option>
+            <option value="MASTER">마스터</option>
+        </select>
+    </div>
+
     <input type="hidden" id="lineList" name="lineList" value="0">
     <button type="submit" id="submitButton">제출하기</button>
     <div id="errorMessage" class="error" style="display: none;"></div>
 </form>
+</body>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     window.onload = function() {
         // 페이지가 로드될 때 롤 이미지로 설정
         document.body.style.backgroundImage = "url('https://ifh.cc/g/AnlAOq.jpg')";
         document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 배경 투명도 설정
 
-        // 게임 옵션 표시
+        // 롤 게임 옵션 표시
         document.getElementById("gameOptions").classList.add("show");
     };
 
@@ -191,44 +290,39 @@
     });
 
     function showOptions() {
-    var game = document.getElementById("game").value;
-    var gameOptionsDiv = document.getElementById("gameOptions");
+        var selectedGame = document.getElementById("game").value;
+        var gameOptionsDiv = document.getElementById("gameOptions");
+        var backgroundImageUrl = ''; // 초기화된 배경 이미지 주소
 
-    var backgroundImageUrl = ''; // 초기화된 배경 이미지 주소
-
-    // 게임에 따른 배경 이미지 주소 설정
-    if (game === "LOL") {
-        backgroundImageUrl = "url('https://ifh.cc/g/AnlAOq.jpg')";
-    } else if (game === "OVERWATCH") {
-        backgroundImageUrl = "url('https://ifh.cc/g/Osth18.jpg')";
-    } else if (game === "PUBG") {
-        backgroundImageUrl = "url('https://ifh.cc/g/KQaOHJ.jpg')";
-    }
-
-    if (backgroundImageUrl !== '') {
-        // 배경 이미지 투명도 설정
-        document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 투명도 조절
-
-        // 모든 요소가 서서히 나타나도록 transition 효과 설정
-        document.body.style.transition = "background-image 0.5s ease";
-        gameOptionsDiv.style.transition = "opacity 0.5s ease";
-
-        // 배경 이미지가 변경될 때만 서서히 나타나도록 설정
-        if (document.body.style.backgroundImage !== backgroundImageUrl) {
-            document.body.style.backgroundImage = backgroundImageUrl; // 새로운 배경 이미지로 설정
+        // 선택된 게임에 따라 해당하는 게임 옵션만 표시
+        if (selectedGame === "LOL") {
+            document.getElementById("gameOptions").classList.add("show");
+            document.getElementById("overwatchOptions").classList.remove("show");
+            document.getElementById("pubgOptions").classList.remove("show");
+            backgroundImageUrl = "url('https://ifh.cc/g/AnlAOq.jpg')";
+        } else if (selectedGame === "OVERWATCH") {
+            document.getElementById("gameOptions").classList.remove("show");
+            document.getElementById("overwatchOptions").classList.add("show");
+            document.getElementById("pubgOptions").classList.remove("show");
+            backgroundImageUrl = "url('https://ifh.cc/g/Osth18.jpg')";
+        } else if (selectedGame === "PUBG") {
+            document.getElementById("gameOptions").classList.remove("show");
+            document.getElementById("overwatchOptions").classList.remove("show");
+            document.getElementById("pubgOptions").classList.add("show");
+            backgroundImageUrl = "url('https://ifh.cc/g/KQaOHJ.jpg')";
         }
 
-        // 게임 옵션 표시
-        gameOptionsDiv.classList.add("show");
-    } else {
-        // 배경 이미지 없을 경우 배경 초기화
-        document.body.style.backgroundImage = "none";
-        document.body.style.backgroundColor = "transparent"; // 배경 투명도 초기화
-
-        // 게임 옵션 숨김
-        gameOptionsDiv.classList.remove("show");
+        if (backgroundImageUrl !== '') {
+            // 배경 이미지 설정
+            document.body.style.backgroundImage = backgroundImageUrl;
+            // 배경 이미지 투명도 설정
+            document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 투명도 조절
+        } else {
+            // 배경 이미지 없을 경우 배경 초기화
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundColor = "transparent"; // 배경 투명도 초기화
+        }
     }
-}
 
     function validateForm() {
         var game = document.getElementById("game").value;
@@ -248,3 +342,4 @@
 </script>
 </body>
 </html>
+

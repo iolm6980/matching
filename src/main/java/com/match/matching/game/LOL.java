@@ -21,6 +21,7 @@ public class LOL implements Game{
     public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
         List<ChatRoom> filterList =
                 chatRooms.stream()
+                        .filter(equalRank(player))
                         .filter(equalType(player))
                         .filter(equalTier(player))
                         .filter(filterLine(player))
@@ -49,6 +50,7 @@ public class LOL implements Game{
     private Predicate<ChatRoom> equalTier(Player player){ // 플레이어가 선택한 티어와 같은것을 필터링한다
         return room -> room.getTier() == player.getTier();
     }
+    private Predicate<ChatRoom> equalRank(Player player){return room -> room.getRank() == player.getRank();}
 
     private Predicate<ChatRoom> equalType(Player player){ // 게임 타입별(칼바람, 협곡)로 필터링
         return room -> room.getGameType() == player.getGameType();
