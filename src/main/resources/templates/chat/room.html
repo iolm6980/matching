@@ -141,6 +141,45 @@
             width 100%;
             background-color: #f2f2f2;
         }
+        #left-container .options p {
+            font-size: 18px; /* 글자 크기 */
+            color: #333; /* 글자 색상 */
+            margin-bottom: 10px; /* 아래쪽 여백 */
+            font-weight: bold; /* 글자 굵기 */
+        }
+
+        #left-container .options span {
+            color: #4CAF50; /* span 요소(변수 등)의 색상 변경 */
+            font-style: italic; /* span 요소(변수 등)의 글자를 기울임 */
+        }
+
+        #left-container {
+            width: 20%; /* 변경 가능한 너비 */
+            height: 90%;
+            display: flex;
+            flex-direction: column; /* 아래쪽에 버튼을 배치하기 위해 컨테이너를 세로로 배치 */
+            justify-content: space-between; /* 위 아래 여백을 동일하게 설정 */
+            align-items: center; /* 버튼을 가운데로 정렬 */
+        }
+
+        #exit-container {
+            margin-bottom: 20px; /* 버튼과 다른 내용 사이의 간격 조정 */
+        }
+
+        #exit-button {
+            padding: 10px 20px;
+            background-color: #f44336; /* 빨간색 배경 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* 호버 시 색 변화를 위한 트랜지션 */
+        }
+
+        #exit-button:hover {
+            background-color: #ff5c4d; /* 호버 시 밝은 빨간색 배경 */
+        }
     </style>
 </head>
 <body>
@@ -148,11 +187,15 @@
     <div id="left-container">
         <div class="options">
             <!-- 게임 옵션 표시 -->
-            <p>게임종류: <span id="gameType">테니스</span></p>
-            <p>게임타입: <span id="gameMode">싱글</span></p>
-            <p>구하는 라인: <span id="seekingLine">2라인</span></p>
-            <p>티어: <span id="tier">골드</span></p>
-            <p>최대 인원수: <span id="currentPlayers">5명</span></p>
+            <p>게임종류: <span id="game">[[${room.game}]]</span></p>
+            <p>게임타입: <span id="gameType">[[${room.gameType}]]</span></p>
+            <p>티어: <span id="tier">[[${room.tier}]]</span></p>
+            <p>인원수:<span id="currentPlayers">[[${room.currentPlayer}]]</span> / <span id="maxPlayers">[[${room.maxPlayer}]]</span></p>
+            <p>구하는 라인: <span id="lineList">[[${room.lineList}]]</span></p>
+        </div>
+
+        <div id="exit-container">
+            <button id="exit-button">나가기</button>
         </div>
     </div>
     <div id="center-container">
@@ -167,32 +210,75 @@
         </div>
     </div>
     <div id="right-container">
-        <!-- 오른쪽 컨테이너 내용 -->
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
+    window.addEventListener('popstate', function(event) {
+        // 뒤로가기 버튼이 눌렸을 때 실행할 함수 호출
+        myFunction();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var inputField = document.getElementById("msg");
+
+        inputField.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // 기본 엔터 동작 방지
+                document.getElementById("send-button").click(); // 제출 버튼 클릭
+            }
+        });
+    });
+
+    function getCurrentPlayer() {
+        $.ajax({
+            url: '/chat/player/' + [[${room.roomId}]],
+            method: 'GET',
+            success: function(data) {
+                $("#currentPlayers").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 오류:', error);
+            }
+        });
+    }
+
+    function transToLineList(){ // 숫자로 되어있는 라인리스트를 문자로 바꾸어 추가한다
+        var line = parseInt([[${room.lineList}]]);
+        var str = "";
+        if(line & (1 << 0)) str += " 탑 ";
+        if(line & (1 << 1)) str += " 정글 ";
+        if(line & (1 << 2)) str += " 미드 ";
+        if(line & (1 << 3)) str += " 원딜 ";
+        if(line & (1 << 4)) str += " 서폿 ";
+
+        $("#lineList").text(str);
+    }
+
     $(document).ready(function(){
         var roomId = [[${room.roomId}]];
         var username = [[${line}]];
         var sockJs = new SockJS("/stomp/chat");
+        transToLineList();
+
 
         console.log( roomId + ", " + username);
 
         //2. connection이 맺어지면 실행
-        if([[${room.currentPeople}]] < [[${room.maxPeople}]]){
+        if([[${room.currentPlayer}]] < [[${room.maxPlayer}]]){
             var stomp = Stomp.over(sockJs);
 
-            stomp.connect({}, function (){
+            stomp.connect({line: [[${line}]] }, function (){
                 console.log("STOMP Connection")
 
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                    getCurrentPlayer(); // 현재 방의 인원수를 가져온다
                     var content = JSON.parse(chat.body);
                     var writer = content.writer;
-
+                    getCurrentPlayer();
                     var str = '';
 
                     if (writer === username) {
@@ -207,10 +293,10 @@
 
                     // 스크롤을 아래로 이동
                     document.getElementById('message-area').scrollTop = document.getElementById('message-area').scrollHeight;
-                });
+                }, {line: [[${line}]]});
 
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
-                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+                stomp.send('/pub/chat/enter', {line: [[${line}]]}, JSON.stringify({roomId: roomId, writer: username}))
             });
         }else{
             alert("방의 인원이 가득차있습니다");
@@ -218,12 +304,29 @@
         }
 
 
-        $("#send-button").on("click", function(e){
-            var msg = document.getElementById("msg");
-            stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
-            msg.value = '';
-        });
-    });
+      $("#send-button").on("click", function(e){
+            var msg = document.getElementById("msg").value.trim(); // 메시지 내용 가져오고 양쪽 공백 제거
+            if (msg !== "") { // 메시지가 비어 있지 않으면 전송
+                stomp.send('/pub/chat/message', {line: [[${line}]] }, JSON.stringify({roomId: roomId, message: msg, writer: username}));
+                document.getElementById("msg").value = ''; // 입력 필드 비우기
+            }
+      });
+
+      $("#exit-button").on("click", function(e){
+             var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
+            if (confirmation) {
+                stomp.send('/pub/chat/exit', {line: [[${line}]] }, JSON.stringify({roomId: roomId, writer: username}));
+                getCurrentPlayer();
+                location.href = "/chat/main"; // 페이지 떠나기
+            }
+      });
+
+      stomp.ws.onclose = function() {
+        alert('소켓이 해제되었습니다.');
+    };
+});
+
+
 </script>
 </body>
 </html>

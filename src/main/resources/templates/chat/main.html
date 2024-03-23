@@ -13,30 +13,42 @@
             background-repeat: no-repeat;
             background-position: center;
             transition: background-image 0.5s ease;
+            min-height: 100vh;
+            display: flex;
+            align-items: center; /* 수직 가운데 정렬 */
+            justify-content: center; /* 수평 가운데 정렬 */
         }
 
         h1 {
             text-align: center;
             color: #333;
+            margin-bottom: 30px; /* 제목과 폼 사이에 더 큰 여백 추가 */
         }
 
         form {
-            max-width: 400px;
+            width: 400px; /* 이전과 동일한 넓이 */
             margin: 20px auto;
-            background-color: rgba(255, 255, 255, 0.9); /* 배경색 투명도를 낮추어 높임 */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 1);
+            padding: 30px; /* 내부 패딩을 더 크게 설정하여 내용을 강조 */
+            border-radius: 12px;
+            border: 3px solid #333; /* 더 두꺼운 테두리 추가 */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* 더 강한 그림자 추가 */
+            transition: box-shadow 0.3s ease; /* 그림자 변화에 대한 전환 효과 추가 */
+        }
+
+        form:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); /* 마우스 호버 시 그림자가 더 강조됨 */
         }
 
         label {
             font-weight: bold;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 20px; /* 라벨 사이에 더 큰 여백 추가 */
         }
 
-        select, input[type="checkbox"] {
-            margin-bottom: 10px;
+        select,
+        input[type="checkbox"] {
+            margin-bottom: 20px; /* 입력 요소 사이에 더 큰 여백 추가 */
             display: block;
             width: 100%;
             padding: 8px;
@@ -46,7 +58,7 @@
         }
 
         #gameOptions {
-            display: none; /* 초기에 숨김 */
+            display: none;
         }
 
         #gameOptions.show {
@@ -61,13 +73,13 @@
         button {
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 15px; /* 버튼의 패딩을 더 크게 설정하여 더 강조함 */
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px; /* 버튼 텍스트 크기를 조금 크게 설정 */
         }
 
         button:hover {
@@ -82,102 +94,157 @@
     </style>
 </head>
 <body>
-<form onsubmit="return validateForm()">
+<form action="/chat/match" method="post" onsubmit="return validateForm()">
     <h1>게임 선택하기</h1>
-    <label for="gameType">게임 종류:</label>
-    <select id="gameType" name="gameType" onchange="showOptions()">
-        <option value="">게임을 선택하세요</option>
-        <option value="롤">롤 (League of Legends)</option>
-        <option value="오버워치">오버워치 (Overwatch)</option>
-        <option value="배그">배틀그라운드 (PUBG)</option>
+    <label for="game">게임 종류:</label>
+    <select id="game" name="game" onchange="showOptions()">
+        <option value="LOL">롤 (League of Legends)</option>
+        <option value="OVERWATCH">오버워치 (Overwatch)</option>
+        <option value="PUBG">배틀그라운드 (PUBG)</option>
     </select>
 
     <div id="gameOptions">
-        <label for="gameMode">게임 타입:</label>
-        <select id="gameMode" name="gameMode">
+        <label for="gameType">게임 타입:</label>
+        <select id="gameType" name="gameType">
             <option value="">게임 타입 선택</option>
-            <option value="자유랭크">자유랭크</option>
-            <option value="듀오랭크">듀오랭크</option>
-            <option value="일반게임">일반게임</option>
-            <option value="칼바람">칼바람</option>
+            <option value="TEAMRANK">자유랭크</option>
+            <option value="DOURANK">듀오랭크</option>
+            <option value="NORMAL">일반게임</option>
+            <option value="ARAM">칼바람</option>
             <option value="TFT">TFT (Teamfight Tactics)</option>
         </select>
 
         <label>티어:</label>
         <select id="tier" name="tier">
             <option value="">티어 선택</option>
-            <option value="브론즈">브론즈</option>
-            <option value="실버">실버</option>
-            <option value="골드">골드</option>
+            <option value="BRONZE">브론즈</option>
+            <option value="SILVER">실버</option>
+            <option value="GOLD">골드</option>
+            <option value="PLATINUM">플래티넘</option>
+            <option value="EMERALD">에메랄드</option>
+            <option value="DIAMOND">다이아</option>
+            <option value="MASTER">마스터</option>
+            <option value="CHALLENGER">챌린저</option>
         </select>
 
         <label>라인:</label>
         <select id="line" name="line">
             <option value="">라인 선택</option>
-            <option value="브론즈">탑</option>
-            <option value="실버">미드</option>
-            <option value="골드">정글</option>
-            <option value="골드">원딜</option>
-            <option value="골드">서폿</option>
+            <option value="TOP">탑</option>
+            <option value="MID">미드</option>
+            <option value="JUNGLE">정글</option>
+            <option value="AD">원딜</option>
+            <option value="SUPPORTER">서폿</option>
         </select>
 
         <label>구하는 라인:</label>
         <div class="checkbox-wrapper">
             <label for="mid">미드</label>
-            <input type="checkbox" id="mid" name="line" value="미드">
+            <input class="form-check-input" type="checkbox" id="mid" value="0">
         </div>
         <div class="checkbox-wrapper">
             <label for="top">탑</label>
-            <input type="checkbox" id="top" name="line" value="탑">
+            <input class="form-check-input" type="checkbox" id="top" value="1">
         </div>
         <div class="checkbox-wrapper">
             <label for="jungle">정글</label>
-            <input type="checkbox" id="jungle" name="line" value="정글">
+            <input class="form-check-input" type="checkbox" id="jungle" value="2">
         </div>
         <div class="checkbox-wrapper">
-            <label for="adc">원딜</label>
-            <input type="checkbox" id="adc" name="line" value="원딜">
+            <label for="ad">원딜</label>
+            <input class="form-check-input" type="checkbox" id="ad" value="3">
         </div>
         <div class="checkbox-wrapper">
-            <label for="support">서폿</label>
-            <input type="checkbox" id="support" name="line" value="서폿">
+            <label for="supporter">서폿</label>
+            <input class="form-check-input" type="checkbox" id="supporter" value="4">
         </div>
     </div>
-    <button type="submit">제출</button>
+    <input type="hidden" id="lineList" name="lineList" value="0">
+    <button type="submit" id="submitButton">제출하기</button>
     <div id="errorMessage" class="error" style="display: none;"></div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    window.onload = function() {
+        // 페이지가 로드될 때 롤 이미지로 설정
+        document.body.style.backgroundImage = "url('https://ifh.cc/g/AnlAOq.jpg')";
+        document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 배경 투명도 설정
 
-    <script>
-        function showOptions() {
-            var gameType = document.getElementById("gameType").value;
-            var gameOptionsDiv = document.getElementById("gameOptions");
+        // 게임 옵션 표시
+        document.getElementById("gameOptions").classList.add("show");
+    };
 
-            if (gameType === "롤" || gameType === "오버워치" || gameType === "배그") {
-                gameOptionsDiv.classList.add("show");
-                document.body.style.backgroundImage = "url('https://picsum.photos/1600/800')";
-            } else {
-                gameOptionsDiv.classList.remove("show");
-                document.body.style.backgroundImage = "none";
-            }
+    var list = parseInt(0);
+    var checkedCount = parseInt(0);
+    $(".form-check-input").change(function(){
+        if($(this).is(":checked")){
+            list = list | (1 << $(this).val());
+            checkedCount++;
+        }
+        else {
+            list = list ^ (1 << $(this).val());
+            checkedCount--;
+        }
+        $("#lineList").val(list);
+    });
+
+    function showOptions() {
+    var game = document.getElementById("game").value;
+    var gameOptionsDiv = document.getElementById("gameOptions");
+
+    var backgroundImageUrl = ''; // 초기화된 배경 이미지 주소
+
+    // 게임에 따른 배경 이미지 주소 설정
+    if (game === "LOL") {
+        backgroundImageUrl = "url('https://ifh.cc/g/AnlAOq.jpg')";
+    } else if (game === "OVERWATCH") {
+        backgroundImageUrl = "url('https://ifh.cc/g/Osth18.jpg')";
+    } else if (game === "PUBG") {
+        backgroundImageUrl = "url('https://ifh.cc/g/KQaOHJ.jpg')";
+    }
+
+    if (backgroundImageUrl !== '') {
+        // 배경 이미지 투명도 설정
+        document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 투명도 조절
+
+        // 모든 요소가 서서히 나타나도록 transition 효과 설정
+        document.body.style.transition = "background-image 0.5s ease";
+        gameOptionsDiv.style.transition = "opacity 0.5s ease";
+
+        // 배경 이미지가 변경될 때만 서서히 나타나도록 설정
+        if (document.body.style.backgroundImage !== backgroundImageUrl) {
+            document.body.style.backgroundImage = backgroundImageUrl; // 새로운 배경 이미지로 설정
         }
 
-        function validateForm() {
-            var gameType = document.getElementById("gameType").value;
-            var gameMode = document.getElementById("gameMode").value;
-            var tier = document.getElementById("tier").value;
-            var checkedLines = document.querySelectorAll("input[name='line']:checked");
-            var selectedLines = Array.from(checkedLines).map(function(line) {
-                return line.value;
-            });
+        // 게임 옵션 표시
+        gameOptionsDiv.classList.add("show");
+    } else {
+        // 배경 이미지 없을 경우 배경 초기화
+        document.body.style.backgroundImage = "none";
+        document.body.style.backgroundColor = "transparent"; // 배경 투명도 초기화
 
-            if (gameType === "" || gameMode === "" || tier === "" || selectedLines.length === 0) {
-                document.getElementById("errorMessage").style.display = "block";
-                document.getElementById("errorMessage").innerText = "모든 필드를 입력하십시오.";
-                return false;
-            } else {
-                document.getElementById("errorMessage").style.display = "none";
-                return true;
-            }
+        // 게임 옵션 숨김
+        gameOptionsDiv.classList.remove("show");
+    }
+}
+
+    function validateForm() {
+        var game = document.getElementById("game").value;
+        var gameType = document.getElementById("gameType").value;
+        var tier = document.getElementById("tier").value;
+        var lineList = document.getElementById("lineList").value;
+
+        if (game === "" || gameType === "" || tier === "" || checkedCount === 0) {
+            document.getElementById("errorMessage").style.display = "block";
+            document.getElementById("errorMessage").innerText = "모든 필드를 입력하십시오.";
+            return false;
+        } else {
+            document.getElementById("errorMessage").style.display = "none";
+            return true;
         }
-    </script>
+    }
+</script>
 </body>
 </html>

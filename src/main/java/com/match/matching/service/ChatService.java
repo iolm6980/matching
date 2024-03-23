@@ -36,8 +36,8 @@ public class ChatService {
     private Map<String, ChatRoom> sessionRoomMap;
     @PostConstruct
     private void init(){
-        chatRoomMap = new LinkedHashMap<>();
-        sessionRoomMap = new LinkedHashMap<>();
+        chatRoomMap = new HashMap<>();
+        sessionRoomMap = new HashMap<>();
     }
     public ChatRoom findRoomById(String id){
         return chatRoomMap.get(id);
@@ -57,15 +57,17 @@ public class ChatService {
         }
     }
 
-    public void enterPlayer(String session ,String roomId){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
+    public void plusRoomPeople(String session ,String roomId, String line){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
         ChatRoom room = chatRoomMap.get(roomId);
         room.enterPlayer(); // 현재방에 인원수를 하나 더한다.
+        room.getSessionMap().put(line, session);
         sessionRoomMap.put(session, room);
     }
 
-    public void outPlayer(String session){ // enterPlayer 저장해놓은 세션을 이용해 방을 찾은 뒤 한명을 빼준다
+    public void minusRoomPeople(String session, String line){ // enterPlayer 저장해놓은 세션을 이용해 방을 찾은 뒤 한명을 빼준다
         ChatRoom room = sessionRoomMap.get(session);
-        room.outPlayer();
+        room.exitPlayer();
+        room.getSessionMap().remove(line);
         sessionRoomMap.remove(session);
     }
 }

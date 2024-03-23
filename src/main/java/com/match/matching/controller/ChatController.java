@@ -29,8 +29,8 @@ public class ChatController {
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
-    @MessageMapping(value = "/chat/out")
-    public void out(ChatMsg message){
+    @MessageMapping(value = "/chat/exit")
+    public void exit(ChatMsg message){
         message.setMessage(message.getWriter() + "님이 퇴장하였습니다.");
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }

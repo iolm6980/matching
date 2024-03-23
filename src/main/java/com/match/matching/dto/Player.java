@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 public class Player {
     private Game game;
-    private Tier tier;
     private GameType gameType;
+    private Tier tier;
     private Line line;
     private int lineList;
     private int maxPeople;

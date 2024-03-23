@@ -1,11 +1,11 @@
 package com.match.matching.dto;
 
 import com.match.matching.Type.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 @Getter
@@ -14,20 +14,25 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChatRoom {
     private String roomId;
+    private Game game;
     private Tier tier;
     private GameType gameType;
     private Line line;
     private int lineList;
-    private int maxPeople;
-    private int currentPeople;
+    private int maxPlayer;
+    private int currentPlayer;
+    private HashMap<String, String> sessionMap;
+
     public ChatRoom(Player player){
         roomId = UUID.randomUUID().toString();
+        game = player.getGame();
         tier = player.getTier();
         gameType = player.getGameType();
         line = player.getLine();
         lineList = player.getLineList();
-        currentPeople = 0;
-        maxPeople = setMaxPeople(player.getGameType());
+        currentPlayer = 0;
+        maxPlayer = setMaxPeople(player.getGameType());
+        sessionMap = new HashMap<>();
     }
 
     public int setMaxPeople(GameType gameType){
@@ -40,9 +45,9 @@ public class ChatRoom {
     }
 
     public void enterPlayer(){
-        currentPeople++;
+        currentPlayer++;
     }
-    public void outPlayer(){currentPeople--;}
+    public void exitPlayer(){currentPlayer--;}
 
 
 }
