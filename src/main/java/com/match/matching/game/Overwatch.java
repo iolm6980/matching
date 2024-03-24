@@ -8,17 +8,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
 public class Overwatch implements Game{
-    List<ChatRoom> chatRooms  = new ArrayList<>(); //현재 생성되어있는 채팅방 리스트
+    private Map<String, ChatRoom> chatRoomMap = new HashMap<>(); // id로 chatRoom을 찾기위한 map
+    private Map<String, ChatRoom> sessionRoomMap = new HashMap<>(); // session으로 chatroom을 찾기위한 map
     @Override
     public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
         List<ChatRoom> filterList =
-                chatRooms.stream()
+                chatRoomMap.values().stream()
                         .filter(equalRank(player))
                         .filter(equalType(player))
                         .filter(equalTier(player))
@@ -26,12 +29,25 @@ public class Overwatch implements Game{
                         .collect(Collectors.toList());
         return filterList;
     }
+
+    @Override
     public void add(ChatRoom chatRoom){
-        chatRooms.add(chatRoom);
+        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
+    }
+
+    @Override
+    public ChatRoom findById(String roomId){
+        return chatRoomMap.get(roomId);
+    }
+
+    @Override
+    public ChatRoom findBySession(String session){
+        return sessionRoomMap.get(session);
     }
 
     public void show(){
-        chatRooms.stream().forEach(
+        System.out.println("현재 갯수" + chatRoomMap.values().size());
+        chatRoomMap.values().stream().forEach(
                 chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
     }
 

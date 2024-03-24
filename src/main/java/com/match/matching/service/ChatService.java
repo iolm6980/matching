@@ -32,15 +32,8 @@ import java.util.stream.IntStream;
 public class ChatService {
     private final GameFactory gameFactory;
     private Game game;
-    private Map<String, ChatRoom> chatRoomMap; // id로 chatRoom을 찾기위한 map
-    private Map<String, ChatRoom> sessionRoomMap; // session으로 chatroom을 찾기위한 map
-    @PostConstruct
-    private void init(){
-        chatRoomMap = new HashMap<>();
-        sessionRoomMap = new HashMap<>();
-    }
     public ChatRoom findRoomById(String id){
-        return chatRoomMap.get(id);
+        return game.findById(id);
     }
 
     public String enterPlayer(Player player){
@@ -50,7 +43,6 @@ public class ChatService {
         {
             ChatRoom chatRoom = new ChatRoom(player);
             game.add(chatRoom);
-            chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
             return chatRoom.getRoomId();
         }else{ // 만약 있다면 채팅방에 넣어준다
             return list.get(0).getRoomId();
@@ -58,16 +50,14 @@ public class ChatService {
     }
 
     public void plusRoomPeople(String session ,String roomId, String line){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
-        ChatRoom room = chatRoomMap.get(roomId);
+        ChatRoom room = game.findById(roomId);
         room.enterPlayer(); // 현재방에 인원수를 하나 더한다.
         room.getSessionMap().put(line, session);
-        sessionRoomMap.put(session, room);
     }
 
-    public void minusRoomPeople(String session, String line){ // enterPlayer 저장해놓은 세션을 이용해 방을 찾은 뒤 한명을 빼준다
-        ChatRoom room = sessionRoomMap.get(session);
+    public void minusRoomPeople(String session, String line){ // 세션을 이용해 방을 찾은 뒤 한명을 빼준다
+        ChatRoom room = game.findBySession(session);
         room.exitPlayer();
         room.getSessionMap().remove(line);
-        sessionRoomMap.remove(session);
     }
 }

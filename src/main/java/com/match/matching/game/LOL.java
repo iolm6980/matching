@@ -16,11 +16,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class LOL implements Game{
-    List<ChatRoom> chatRooms  = new ArrayList<>(); //롤 현재 생성되어있는 채팅방 리스트
+    private Map<String, ChatRoom> chatRoomMap = new HashMap<>(); // id로 chatRoom을 찾기위한 map
+    private Map<String, ChatRoom> sessionRoomMap = new HashMap<>(); // session으로 chatroom을 찾기위한 map
     @Override
     public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
         List<ChatRoom> filterList =
-                chatRooms.stream()
+                chatRoomMap.values().stream()
                         .filter(equalRank(player))
                         .filter(equalType(player))
                         .filter(equalTier(player))
@@ -30,13 +31,24 @@ public class LOL implements Game{
         return filterList;
     }
 
-
+    @Override
     public void add(ChatRoom chatRoom){
-        chatRooms.add(chatRoom);
+        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
+    }
+
+    @Override
+    public ChatRoom findById(String roomId){
+        return chatRoomMap.get(roomId);
+    }
+
+    @Override
+    public ChatRoom findBySession(String session){
+        return sessionRoomMap.get(session);
     }
 
     public void show(){
-        chatRooms.stream().forEach(
+        System.out.println("현재 갯수" + chatRoomMap.values().size());
+        chatRoomMap.values().stream().forEach(
                 chatRoom -> System.out.println( chatRoom.getGameType() + " / " + chatRoom.getTier() + " / " + chatRoom.getLine() + " / " + Integer.toBinaryString(chatRoom.getLineList())));
     }
 
@@ -46,10 +58,6 @@ public class LOL implements Game{
         else if(player.getLine() == Line.ALL) return room -> true; // 모든라인이 가능한경우에도 라인에 상관없이 반환
         else return room -> (room.getLineList() & lineToInt(player.getLine())) > 0; //플레이어의 라인을 가진 방을 반환
     }
-
-//    private Predicate<ChatRoom> filterPerson(Player player){
-//        return r-> ((player.getCurrentPerson() == r.getNeedPerson()) && (player.getNeedPerson() == r.getCurrentPerson()));
-//    }
     
     private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
         if(line == Line.TOP) return (1 << 0);
