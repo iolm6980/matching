@@ -37,6 +37,11 @@ public class LOL implements Game{
     }
 
     @Override
+    public void add(String session, String roomId){
+        sessionRoomMap.put(session, findById(roomId));
+    }
+
+    @Override
     public ChatRoom findById(String roomId){
         return chatRoomMap.get(roomId);
     }

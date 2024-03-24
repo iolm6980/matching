@@ -280,6 +280,11 @@
                     getCurrentPlayer(); // 현재 방의 인원수를 가져온다
                     var content = JSON.parse(chat.body);
                     var writer = content.writer;
+
+                    var headers = chat.headers;
+
+                    var yourHeaderValue = headers['testnameaa'];
+                    console.log("내가넣은 헤더" + yourHeaderValue);
                     if(content.messageType !== 'MESSAGE') getCurrentPlayer();
                     var str = '';
 

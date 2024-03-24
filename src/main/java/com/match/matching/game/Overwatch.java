@@ -36,6 +36,11 @@ public class Overwatch implements Game{
     }
 
     @Override
+    public void add(String session, String roomId) {
+
+    }
+
+    @Override
     public ChatRoom findById(String roomId){
         return chatRoomMap.get(roomId);
     }
