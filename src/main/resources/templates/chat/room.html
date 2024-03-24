@@ -216,11 +216,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
-    window.addEventListener('popstate', function(event) {
-        // 뒤로가기 버튼이 눌렸을 때 실행할 함수 호출
-        myFunction();
-    });
-
     document.addEventListener("DOMContentLoaded", function() {
         var inputField = document.getElementById("msg");
 
@@ -248,11 +243,18 @@
     function transToLineList(){ // 숫자로 되어있는 라인리스트를 문자로 바꾸어 추가한다
         var line = parseInt([[${room.lineList}]]);
         var str = "";
-        if(line & (1 << 0)) str += " 탑 ";
-        if(line & (1 << 1)) str += " 정글 ";
-        if(line & (1 << 2)) str += " 미드 ";
-        if(line & (1 << 3)) str += " 원딜 ";
-        if(line & (1 << 4)) str += " 서폿 ";
+
+        if([[${room.game}]] === "LOL"){
+            if(line & (1 << 0)) str += " 탑 ";
+            if(line & (1 << 1)) str += " 정글 ";
+            if(line & (1 << 2)) str += " 미드 ";
+            if(line & (1 << 3)) str += " 원딜 ";
+            if(line & (1 << 4)) str += " 서폿 ";
+        }else if([[${room.game}]] === "OVERWATCH"){
+            if(line & (1 << 0)) str += " 탱커 ";
+            if(line & (1 << 1)) str += " 딜러 ";
+            if(line & (1 << 2)) str += " 힐러 ";
+        }
 
         $("#lineList").text(str);
     }
@@ -278,7 +280,7 @@
                     getCurrentPlayer(); // 현재 방의 인원수를 가져온다
                     var content = JSON.parse(chat.body);
                     var writer = content.writer;
-                    getCurrentPlayer();
+                    if(content.messageType !== 'MESSAGE') getCurrentPlayer();
                     var str = '';
 
                     if (writer === username) {
@@ -296,7 +298,7 @@
                 }, {line: [[${line}]]});
 
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
-                stomp.send('/pub/chat/enter', {line: [[${line}]]}, JSON.stringify({roomId: roomId, writer: username}))
+                stomp.send('/pub/chat/enter', {line: [[${line}]]}, JSON.stringify({roomId: roomId, writer: username, messageType:'ENTER'}))
             });
         }else{
             alert("방의 인원이 가득차있습니다");
@@ -307,19 +309,29 @@
       $("#send-button").on("click", function(e){
             var msg = document.getElementById("msg").value.trim(); // 메시지 내용 가져오고 양쪽 공백 제거
             if (msg !== "") { // 메시지가 비어 있지 않으면 전송
-                stomp.send('/pub/chat/message', {line: [[${line}]] }, JSON.stringify({roomId: roomId, message: msg, writer: username}));
+                stomp.send('/pub/chat/message', {line: [[${line}]] }, JSON.stringify({roomId: roomId, message: msg, writer: username, messageType:'MESSAGE'}));
                 document.getElementById("msg").value = ''; // 입력 필드 비우기
             }
       });
 
       $("#exit-button").on("click", function(e){
-             var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
+        quitPlayer();
+      });
+
+      window.addEventListener('popstate', function(event) { // 뒤로가기 눌렀을 떄
+            quitPlayer();
+       });
+
+      function quitPlayer(){
+          var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation) {
-                stomp.send('/pub/chat/exit', {line: [[${line}]] }, JSON.stringify({roomId: roomId, writer: username}));
-                getCurrentPlayer();
+                stomp.send('/pub/chat/exit', {line: [[${line}]] }, JSON.stringify({roomId: roomId, writer: username, messageType:'QUIT'}));
+
                 location.href = "/chat/main"; // 페이지 떠나기
             }
-      });
+      }
+
+
 
       stomp.ws.onclose = function() {
         alert('소켓이 해제되었습니다.');

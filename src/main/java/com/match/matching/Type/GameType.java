@@ -1,8 +1,8 @@
 package com.match.matching.Type;
 
 public enum GameType {
-    ARAM, TFT, DOU, TRIO,TEAM, // 롤
-    FIXEDROLE, FREEROLE,; // 오버워치
+    ARAM, TFT, DUO, TRIO, TEAM,
+    FIXEDROLE, FREEROLE,;
 
     public static GameType getRandom(){
         return values()[(int)(Math.random() * values().length)];

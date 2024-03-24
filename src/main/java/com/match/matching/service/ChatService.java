@@ -32,8 +32,8 @@ import java.util.stream.IntStream;
 public class ChatService {
     private final GameFactory gameFactory;
     private Game game;
-    private Map<String, ChatRoom> chatRoomMap;
-    private Map<String, ChatRoom> sessionRoomMap;
+    private Map<String, ChatRoom> chatRoomMap; // id로 chatRoom을 찾기위한 map
+    private Map<String, ChatRoom> sessionRoomMap; // session으로 chatroom을 찾기위한 map
     @PostConstruct
     private void init(){
         chatRoomMap = new HashMap<>();

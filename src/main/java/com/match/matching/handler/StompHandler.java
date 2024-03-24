@@ -28,6 +28,7 @@ public class StompHandler implements ChannelInterceptor  {
         String roomId = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId").replace("/sub/chat/room/" , "");
         String session = (String) message.getHeaders().get("simpSessionId");Object payload = message.getPayload();
         String line = accessor.getFirstNativeHeader("line");
+
         if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
             System.out.println("구독" + roomId);
             chatService.plusRoomPeople(session, roomId, line);

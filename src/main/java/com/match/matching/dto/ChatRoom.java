@@ -38,24 +38,27 @@ public class ChatRoom {
     }
 
     public int setMaxPeople(Player player){
-        System.out.println("테스트...................." + player.getGameType());
-        return 0;
-//        switch (player.getGameType()){
-//            case DOU: return 2;
-//            case TRIO: return 3;
-//            case TEAM, ARAM:
-//                if(player.getGame() == Game.PUBG) return 4;
-//                else return 5;
-//            case FIXEDROLE, FREEROLE: return 6;
-//            case TFT: return 8;
-//            default: return 0;
-//        }
+        switch (player.getGameType()){
+            case DUO: return 2;
+            case TRIO: return 3;
+            case TEAM, ARAM:
+                if(player.getGame() == Game.PUBG) return 4;
+                else return 5;
+            case FIXEDROLE, FREEROLE: return 6;
+            case TFT: return 8;
+            default: return 0;
+        }
     }
 
     public void enterPlayer(){
         currentPlayer++;
     }
     public void exitPlayer(){currentPlayer--;}
+
+    //이름 발급 알고리즘
+    public void provideName(String session, String line){
+
+    }
 
 
 }
