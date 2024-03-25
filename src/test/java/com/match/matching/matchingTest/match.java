@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class match {
     @Test
     public void player(){
-        System.out.println("test");
+        System.out.println("player test....................");
 //        LOL lol = new LOL();
 //        Player player = Player.builder()
 //                .game(Game.LOL)
