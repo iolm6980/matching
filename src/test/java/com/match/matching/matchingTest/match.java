@@ -15,8 +15,6 @@ import java.util.stream.IntStream;
 
 @SpringBootTest
 public class match {
-    @Autowired
-    private ChatService chatService;
     @Test
     public void player(){
 //        LOL lol = new LOL();
