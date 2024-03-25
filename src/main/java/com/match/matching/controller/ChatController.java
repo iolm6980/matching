@@ -6,6 +6,7 @@ import com.match.matching.dto.Player;
 import com.match.matching.service.ChatService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

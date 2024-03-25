@@ -23,7 +23,6 @@ public class ChatRoom {
     private int maxPlayer;
     private int currentPlayer;
     private int nameList;
-    private HashMap<String, String> sessionMap;
 
     public ChatRoom(Player player){
         roomId = UUID.randomUUID().toString();
@@ -36,7 +35,7 @@ public class ChatRoom {
         currentPlayer = 0;
         maxPlayer = setMaxPeople(player);
         nameList = 0;
-        sessionMap = new HashMap<>();
+
     }
 
     public int setMaxPeople(Player player){
@@ -52,20 +51,11 @@ public class ChatRoom {
         }
     }
 
-    public void enterPlayer(String session){
+    public void enterPlayer(){
         currentPlayer++;
-        String name = provideName();
-        sessionMap.put(session, name);
-        System.out.println("session " + session + "에게" + name + "제공함");
-        sessionMap.get(session);
     }
-    public void exitPlayer(String session){
+    public void exitPlayer(){
         currentPlayer--;
-        collectName(sessionMap.get(session));
-        sessionMap.remove(session);
-    }
-    public String getName(String session){
-        return sessionMap.get(session);
     }
 
     public String provideName(){//랜덤이름을 가져온다 만약 이름이 이미 있다면 다른이름을 가져온다

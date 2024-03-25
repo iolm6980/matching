@@ -195,7 +195,12 @@
         </div>
 
         <div id="exit-container">
-            <button id="exit-button">나가기</button>
+            <form action="/chat/quit" method="post">
+                <input type="hidden" name="roomId" id="roomId" th:value="${room.roomId}">
+                <input type="hidden" name="username" id="username" th:value="${username}">
+                <button id="exit-button">나가기</button>
+            </form>
+
         </div>
     </div>
     <div id="center-container">
@@ -261,34 +266,30 @@
 
     $(document).ready(function(){
         var roomId = [[${room.roomId}]];
-        var username = [[${line}]];
         var sockJs = new SockJS("/stomp/chat");
+        var user
         transToLineList();
 
 
-        console.log( roomId + ", " + username);
 
         //2. connection이 맺어지면 실행
         if([[${room.currentPlayer}]] < [[${room.maxPlayer}]]){
             var stomp = Stomp.over(sockJs);
 
-            stomp.connect({line: [[${line}]] }, function (){
+            stomp.connect({}, function (){
                 console.log("STOMP Connection")
 
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                    getCurrentPlayer(); // 현재 방의 인원수를 가져온다
+
+                    console.log("chat header:", chat);
                     var content = JSON.parse(chat.body);
                     var writer = content.writer;
 
-                    var headers = chat.headers;
-
-                    var yourHeaderValue = headers['testnameaa'];
-                    console.log("내가넣은 헤더" + yourHeaderValue);
-                    if(content.messageType !== 'MESSAGE') getCurrentPlayer();
+                    if(content.messageType !== 'MESSAGE') getCurrentPlayer();// 현재 방의 인원수를 가져온다
                     var str = '';
 
-                    if (writer === username) {
+                    if (writer === [[${username}]]) {
                         str = "<li class='user-message-container'><div class='message user-message'>";
                     } else {
                         str = "<li class='other-message-container'><div class='sender-color'><span class='sender-name'>" + writer + "</span></div><div class='message other-message'>";
@@ -300,10 +301,10 @@
 
                     // 스크롤을 아래로 이동
                     document.getElementById('message-area').scrollTop = document.getElementById('message-area').scrollHeight;
-                }, {line: [[${line}]]});
+                });
 
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
-                stomp.send('/pub/chat/enter', {line: [[${line}]]}, JSON.stringify({roomId: roomId, writer: username, messageType:'ENTER'}))
+                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'ENTER'}))
             });
         }else{
             alert("방의 인원이 가득차있습니다");
@@ -314,7 +315,7 @@
       $("#send-button").on("click", function(e){
             var msg = document.getElementById("msg").value.trim(); // 메시지 내용 가져오고 양쪽 공백 제거
             if (msg !== "") { // 메시지가 비어 있지 않으면 전송
-                stomp.send('/pub/chat/message', {line: [[${line}]] }, JSON.stringify({roomId: roomId, message: msg, writer: username, messageType:'MESSAGE'}));
+                stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg, writer: [[${username}]], messageType:'MESSAGE'}));
                 document.getElementById("msg").value = ''; // 입력 필드 비우기
             }
       });
@@ -330,14 +331,9 @@
       function quitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation) {
-                stomp.send('/pub/chat/exit', {line: [[${line}]] }, JSON.stringify({roomId: roomId, writer: username, messageType:'QUIT'}));
-
-                location.href = "/chat/main"; // 페이지 떠나기
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'QUIT'}));
             }
       }
-
-
-
       stomp.ws.onclose = function() {
         alert('소켓이 해제되었습니다.');
     };

@@ -23,7 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 @RequiredArgsConstructor
@@ -33,24 +35,33 @@ public class ChatRoomController {
 
     private final ChatService chatService;
     @GetMapping("/room")
-    public void roomInfo(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "line") String line, Model model) {
+    public void roomInfo(@RequestParam(value = "roomId") String roomId, Model model) {
         System.out.println("chatRoom.............");
+        String username = chatService.findRoomById(roomId).provideName();
+        System.out.println("부여받은 이름 " +  username);
         model.addAttribute("room", chatService.findRoomById(roomId));
-        model.addAttribute("line", line);
+        model.addAttribute("username", username);
+    }
+
+    @PostMapping("/quit")
+    public String quit(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "username") String username){
+        System.out.println("나가기 " + username + " / " + roomId);
+        chatService.findRoomById(roomId).collectName(username);
+        return "redirect:/chat/main";
     }
 
     @GetMapping("/main")
     public void mainPage(){
     }
     @PostMapping("/match")
-    public String matching(Player player){
+    public String matching(Player player, HttpServletResponse response) throws IOException {
         System.out.println("player........" + player.getGame() + " / " +player.getGameType() + " / " + player.getTier() + " / " + Integer.toBinaryString(player.getLineList()));
         String roomId = chatService.enterPlayer(player);
-        return "redirect:/chat/room?roomId=" + roomId + "&line=" + player.getLine();
+        return "redirect:/chat/room?roomId=" + roomId;
     }
 
     @GetMapping("/player/{roomId}")
-    public ResponseEntity<Integer> people(@PathVariable(value = "roomId") String roomId){
+    public ResponseEntity<Integer> people(@PathVariable(value = "roomId") String roomId){ // 현재 방에 있는 사용자 수를 반환한다
         Integer currentPeople;
         try {
             currentPeople = chatService.findRoomById(roomId).getCurrentPlayer();
