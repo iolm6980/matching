@@ -37,7 +37,7 @@ public class ChatRoomController {
     @GetMapping("/room")
     public void roomInfo(@RequestParam(value = "roomId") String roomId, Model model) {
         System.out.println("chatRoom.............");
-        String username = chatService.findRoomById(roomId).provideName();
+        String username = chatService.provideName(roomId);
         System.out.println("부여받은 이름 " +  username);
         model.addAttribute("room", chatService.findRoomById(roomId));
         model.addAttribute("username", username);
@@ -46,7 +46,7 @@ public class ChatRoomController {
     @PostMapping("/quit")
     public String quit(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "username") String username){
         System.out.println("나가기 " + username + " / " + roomId);
-        chatService.findRoomById(roomId).collectName(username);
+        chatService.collectName(roomId, username);
         return "redirect:/chat/main";
     }
 

@@ -27,14 +27,11 @@ public class LOL implements Game{
                         .filter(equalTier(player))
                         .filter(filterLine(player))
                         .collect(Collectors.toList());
-
         return filterList;
     }
 
     @Override
-    public void add(ChatRoom chatRoom){
-        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
-    }
+    public void add(ChatRoom chatRoom){chatRoomMap.put(chatRoom.getRoomId(), chatRoom);}
 
     @Override
     public void add(String session, String roomId){
@@ -49,6 +46,46 @@ public class LOL implements Game{
     @Override
     public ChatRoom findBySession(String session){
         return sessionRoomMap.get(session);
+    }
+    @Override
+    public String provideName(String roomId){//랜덤이름을 가져온다 만약 이름이 이미 있다면 다른이름을 가져온다
+        ChatRoom chatRoom = chatRoomMap.get(roomId);
+        int nameList = chatRoom.getNameList();
+        StringBuffer bf = new StringBuffer();
+        if(!((nameList & (1<<0)) > 0)) {
+            bf.append("칼날부리");
+            nameList = nameList | (1<<0);
+        }
+        else if(!((nameList & (1<<1)) > 0)){
+            bf.append("돌거북");
+            nameList = nameList | (1<<1);
+        }
+        else if(!((nameList & (1<<2)) > 0)){
+            bf.append("심술두꺼비");
+            nameList = nameList | (1<<2);
+        }
+        else if(!((nameList & (1<<3)) > 0)){
+            bf.append("바위게");
+            nameList = nameList | (1<<3);
+        }
+        else if(!((nameList & (1<<4)) > 0)){
+            bf.append("어스름늑대");
+            nameList = nameList | (1<<4);
+        }
+        chatRoom.setNameList(nameList);
+        return bf.toString();
+    }
+    @Override
+    public void collectName(String roomId, String name){
+        ChatRoom chatRoom = chatRoomMap.get(roomId);
+        int nameList = chatRoom.getNameList();
+        if(name.equals("칼날부리")) nameList = nameList ^ (1<<0);
+        else if(name.equals("돌거북")) nameList = nameList ^ (1<<1);
+        else if(name.equals("심술두꺼비")) nameList = nameList ^ (1<<2);
+        else if(name.equals("바위게")) nameList = nameList ^ (1<<3);
+        else if(name.equals("어스름늑대")) nameList = nameList ^ (1<<4);
+        chatRoom.setNameList(nameList);
+        System.out.println(name + " 회수함.....");
     }
 
     public void show(){

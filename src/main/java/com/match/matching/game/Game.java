@@ -13,6 +13,9 @@ public interface Game {
     void add(ChatRoom chatRoom);
     void add(String session, String roomId);
 
+    void collectName(String roomId, String name);
+    String provideName(String roomId);
+
     default Predicate<ChatRoom> equalTier(Player player){ // 플레이어가 선택한 티어와 같은것을 필터링한다
         return room -> room.getTier() == player.getTier();
     }

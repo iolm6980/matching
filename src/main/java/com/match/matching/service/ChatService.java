@@ -49,14 +49,22 @@ public class ChatService {
         }
     }
 
-    public void plusRoomPeople(String session ,String roomId, String line){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
+    public void plusRoomPeople(String session ,String roomId){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
         ChatRoom room = game.findById(roomId);
         room.enterPlayer(); // 현재방에 인원수를 하나 더한다.
         game.add(session, roomId);
     }
 
-    public void minusRoomPeople(String session, String line){ // 세션을 이용해 방을 찾은 뒤 한명을 빼준다
+    public void minusRoomPeople(String session){ // 세션을 이용해 방을 찾은 뒤 한명을 빼준다
         ChatRoom room = game.findBySession(session);
         room.exitPlayer();
+    }
+
+    public String provideName(String roomId){
+        return game.provideName(roomId);
+    }
+
+    public void collectName(String roomId, String name){
+        game.collectName(roomId, name);
     }
 }
