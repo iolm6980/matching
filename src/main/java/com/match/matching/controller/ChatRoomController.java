@@ -43,8 +43,8 @@ public class ChatRoomController {
         model.addAttribute("username", username);
     }
 
-    @PostMapping("/quit")
-    public String quit(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "username") String username){
+    @PostMapping("/exit")
+    public String exit(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "username") String username){
         System.out.println("나가기 " + username + " / " + roomId);
         chatService.collectName(roomId, username);
         return "redirect:/chat/main";

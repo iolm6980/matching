@@ -194,7 +194,7 @@
         </div>
 
         <div id="exit-container">
-            <form action="/chat/quit" method="post">
+            <form action="/chat/exit" method="post" class="exit-form">
                 <input type="hidden" name="roomId" id="roomId" th:value="${room.roomId}">
                 <input type="hidden" name="username" id="username" th:value="${username}">
                 <button id="exit-button">나가기</button>
@@ -320,17 +320,19 @@
       });
 
       $("#exit-button").on("click", function(e){
-        quitPlayer();
+        e.preventDefault();
+        exitPlayer();
+        $(".exit-form").submit();
       });
 
       window.addEventListener('popstate', function(event) { // 뒤로가기 눌렀을 떄
-            quitPlayer();
+            exitPlayer();
        });
 
-      function quitPlayer(){
+      function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation) {
-                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'QUIT'}));
+                stomp.send('/pub/chat/exit', {messageType:"exit"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
             }
       }
       stomp.ws.onclose = function() {
