@@ -33,7 +33,6 @@ public class StompHandler implements ChannelInterceptor  {
         String roomId = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId").replace("/sub/chat/room/" , "");
         String session = (String) message.getHeaders().get("simpSessionId");
         String messageType = Optional.ofNullable((String) accessor.getFirstNativeHeader("messageType")).orElse("message");
-
         System.out.println("메시지 타입 " + messageType);
         if (StompCommand.SUBSCRIBE == accessor.getCommand()) {
             System.out.println("구독" + roomId);
