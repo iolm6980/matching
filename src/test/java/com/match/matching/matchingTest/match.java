@@ -6,6 +6,7 @@ import com.match.matching.dto.Player;
 import com.match.matching.game.LOL;
 import com.match.matching.nodes.GameOption;
 import com.match.matching.nodes.GameTree;
+import com.match.matching.nodes.LoLTree;
 import com.match.matching.service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,18 @@ public class match {
     @Test
     public void player(){
         System.out.println("player test....................");
+        LoLTree loLTree = new LoLTree();
+        Player player1 = Player.builder()
+                .game(Game.LOL)
+                .isRank(IsRank.RANK)
+                .gameType(GameType.TEAM)
+                .tier(Tier.GOLD)
+                .line(Line.TOP)
+                .lineList(0)
+                .build();
+        ChatRoom chatRoom1 = loLTree.enterPlayer(player1);
 
+        //System.out.println(chatRoom);
 //        LOL lol = new LOL();
 //        Player player = Player.builder()
 //                .game(Game.LOL)
@@ -75,8 +87,6 @@ public class match {
 
     @Test
     public void treeTest(){
-        GameTree gameTree = new GameTree();
-        System.out.println(gameTree);
     }
 
 
