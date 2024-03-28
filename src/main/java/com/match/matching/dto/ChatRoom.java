@@ -1,11 +1,11 @@
 package com.match.matching.dto;
 
 import com.match.matching.Type.*;
-import lombok.*;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.UUID;
 
 @Getter

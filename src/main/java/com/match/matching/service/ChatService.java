@@ -1,30 +1,14 @@
 package com.match.matching.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.match.matching.Type.GameType;
-import com.match.matching.Type.Tier;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 import com.match.matching.game.Game;
 import com.match.matching.game.GameFactory;
-import com.match.matching.game.LOL;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.messaging.MessageDeliveryException;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -91,11 +91,26 @@
             font-size: 14px;
             margin-top: 5px;
         }
+
+        @media screen and (max-width: 600px) {
+            form {
+                width: 80%; /* 더 좁은 화면에 대해 폼 너비 조정 */
+            }
+            /* 다른 요소들에 대한 추가적인 모바일 스타일 조정 */
+        }
+
+        /* 중간 화면에 대한 스타일 */
+        @media screen and (min-width: 601px) and (max-width: 1024px) {
+            form {
+                width: 50%; /* 중간 화면에 대해 폼 너비 조정 */
+            }
+            /* 다른 요소들에 대한 추가적인 중간 화면 스타일 조정 */
+        }
     </style>
 </head>
 <body>
 <form action="/chat/match" method="post">
-    <h1>게임 선택하기9</h1>
+    <h1>게임 선택하기</h1>
     <label for="game">게임 종류:</label>
     <select id="game" name="game" onchange="showOptions()">
         <option value="LOL">롤 (League of Legends)</option>
@@ -166,7 +181,7 @@
         </div>
         <input type="hidden" id="lineList" name="lineList" value="0">
     </div>
-    <button type="submit" id="submitButton">제출하기</button>
+    <button type="submit" id="submitButton">매칭하기</button>
     <div id="errorMessage" class="error" style="display: none;"></div>
 </form>
 </body>

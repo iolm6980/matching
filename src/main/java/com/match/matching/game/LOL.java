@@ -1,16 +1,14 @@
 package com.match.matching.game;
 
-import com.fasterxml.jackson.databind.util.ArrayBuilders;
 import com.match.matching.Type.GameType;
 import com.match.matching.Type.Line;
-import com.match.matching.Type.Tier;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 

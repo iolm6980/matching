@@ -5,9 +5,7 @@ import com.match.matching.Type.Line;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
