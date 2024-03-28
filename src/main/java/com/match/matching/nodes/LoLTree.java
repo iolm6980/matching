@@ -3,47 +3,32 @@ package com.match.matching.nodes;
 import com.match.matching.Type.*;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+@Component
 public class LoLTree implements GameTree{
-    GameOption game;
-    public LoLTree(){
-        game = new GameOption<Game, IsRank>(Game.LOL);
+    GameOption gameOptions;
+    public LoLTree(){ // 롤 -> 랭크여부 -> 라인 -> 티어 순으로 트리를 만든다
+        gameOptions = new GameOption<>(Game.LOL);
 
-        List<GameOption> isRankList = new ArrayList<>();
-        isRankList.add(new GameOption(IsRank.RANK));
-        isRankList.add(new GameOption(IsRank.NORMAL));
-
-        List<GameOption> gameTypeList = new ArrayList<>();
-        gameTypeList.add(new GameOption<>(GameType.ARAM));
-        gameTypeList.add(new GameOption<>(GameType.TFT));
-        gameTypeList.add(new GameOption<>(GameType.DUO));
-        gameTypeList.add(new GameOption<>(GameType.TEAM));
-
-
-        List<GameOption> lineList = new ArrayList<>();
-        lineList.add(new GameOption(Line.AD));
-        lineList.add(new GameOption(Line.SUPPORTER));
-        lineList.add(new GameOption(Line.TOP));
-        lineList.add(new GameOption(Line.JUNGLE));
-        lineList.add(new GameOption(Line.MID));
-
-        List<GameOption> tierList = new ArrayList<>();
-        tierList.add(new GameOption(Tier.BRONZE));
-        tierList.add(new GameOption(Tier.SILVER));
-        tierList.add(new GameOption(Tier.GOLD));
-        tierList.add(new GameOption(Tier.PLATINUM));
-        tierList.add(new GameOption(Tier.EMERALD));
-        tierList.add(new GameOption(Tier.DIAMOND));
-        tierList.add(new GameOption(Tier.MASTER));
-        tierList.add(new GameOption(Tier.GRANDMASTER));
-        tierList.add(new GameOption(Tier.CHALLENGER));
+        List<GameOption> isRankList = Arrays.asList(new GameOption<>(IsRank.RANK), new GameOption<>(IsRank.NORMAL));
+        List<GameOption> gameTypeList = Arrays.asList(new GameOption<>(GameType.ARAM), new GameOption<>(GameType.TFT),
+                new GameOption<>(GameType.DUO), new GameOption<>(GameType.TEAM));
+        List<GameOption> lineList = Arrays.asList(new GameOption<>(Line.AD), new GameOption<>(Line.SUPPORTER),
+                new GameOption<>(Line.TOP), new GameOption<>(Line.JUNGLE),
+                new GameOption<>(Line.MID));
+        List<GameOption> tierList = Arrays.asList(new GameOption<>(Tier.BRONZE), new GameOption<>(Tier.SILVER),
+                new GameOption<>(Tier.GOLD), new GameOption<>(Tier.PLATINUM),
+                new GameOption<>(Tier.EMERALD), new GameOption<>(Tier.DIAMOND),
+                new GameOption<>(Tier.MASTER), new GameOption<>(Tier.GRANDMASTER),
+                new GameOption<>(Tier.CHALLENGER));
 
         for (GameOption rankOption : isRankList) {
-            game.addChild(rankOption);
-            game.nextOption = IsRank.RANK;
+            gameOptions.addChild(rankOption);
+            gameOptions.nextOption = IsRank.RANK;
         }
 
         for(GameOption rankOption: isRankList){
@@ -71,7 +56,7 @@ public class LoLTree implements GameTree{
     }
 
     @Override
-    public ChatRoom enterPlayer(Player player) {
-        return game.getRoom(player);
+    public ChatRoom getRoom(Player player) {
+        return gameOptions.searchChatRoom(player);
     }
 }

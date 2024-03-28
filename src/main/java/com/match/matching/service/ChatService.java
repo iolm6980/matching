@@ -38,15 +38,9 @@ public class ChatService {
 
     public String enterPlayer(Player player){
         game =  gameFactory.getGame(player); // 플레이어가 선택한 게임에 따라 게임을 반환함
-        List<ChatRoom> list = game.getFilteringRoom(player); // 플레이어가 선택한 조건에 맞는 리스트를 가져옴 롤에경우에는 게임과 게임타입으로 나뉜것
-        if(list.size() == 0) // 만약 현재 플레이어가 입장할수 있는 방이 없으면 새로운 방을 만든다.
-        {
-            ChatRoom chatRoom = new ChatRoom(player);
-            game.add(chatRoom);
-            return chatRoom.getRoomId();
-        }else{ // 만약 있다면 채팅방에 넣어준다
-            return list.get(0).getRoomId();
-        }
+        ChatRoom room = game.getRoom(player); // 플레이어가 선택한 조건에 방을 가져온다 없을 경우에는 방을 생성한다
+        System.out.println(room);
+        return room.getRoomId();
     }
 
     public void plusRoomPeople(String session ,String roomId){ // 유저가 방에 접속하면 유저의 세션과 방ID를 map에 저장한 후 방인원수 늘림
@@ -57,7 +51,8 @@ public class ChatService {
 
     public void minusRoomPeople(String session){ // 세션을 이용해 방을 찾은 뒤 한명을 빼준다
         ChatRoom room = game.findBySession(session);
-        room.exitPlayer();
+        int people = room.exitPlayer();
+        if(people == 0)
     }
 
     public String provideName(String roomId){

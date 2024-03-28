@@ -30,8 +30,8 @@ public class match {
                 .line(Line.TOP)
                 .lineList(0)
                 .build();
-        ChatRoom chatRoom1 = loLTree.enterPlayer(player1);
-
+        ChatRoom chatRoom1 = loLTree.getRoom(player1);
+        System.out.println(chatRoom1);
         //System.out.println(chatRoom);
 //        LOL lol = new LOL();
 //        Player player = Player.builder()

@@ -6,7 +6,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public interface Game {
-    List<ChatRoom> getFilteringRoom(Player player);
+    List<Integer> test = new LinkedList<>();
+    ChatRoom getRoom(Player player);
 
     ChatRoom findById(String roomId);
     ChatRoom findBySession(String session);

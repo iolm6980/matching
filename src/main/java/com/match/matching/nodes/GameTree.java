@@ -7,5 +7,5 @@ import com.match.matching.dto.Player;
 import java.util.ArrayList;
 import java.util.List;
 public interface GameTree {
-    ChatRoom enterPlayer(Player player);
+    ChatRoom getRoom(Player player);
 }

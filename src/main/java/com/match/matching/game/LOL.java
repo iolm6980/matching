@@ -1,31 +1,27 @@
 package com.match.matching.game;
 
-import com.fasterxml.jackson.databind.util.ArrayBuilders;
 import com.match.matching.Type.GameType;
-import com.match.matching.Type.IsRank;
 import com.match.matching.Type.Line;
-import com.match.matching.Type.Tier;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
-import com.match.matching.nodes.GameOption;
 import com.match.matching.nodes.LoLTree;
-import com.sun.source.tree.Tree;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.Vector;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class LOL implements Game{
+    private final LoLTree loLTree;
     private Map<String, ChatRoom> chatRoomMap = new HashMap<>(); // id로 chatRoom을 찾기위한 map
     private Map<String, ChatRoom> sessionRoomMap = new HashMap<>(); // session으로 chatroom을 찾기위한 map
     @Override
-    public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
-        return null;
+    public ChatRoom getRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
+        ChatRoom room = loLTree.getRoom(player);
+        chatRoomMap.put(room.getRoomId(), room);
+        return room;
     }
 
     @Override
@@ -45,8 +41,10 @@ public class LOL implements Game{
     public ChatRoom findBySession(String session){
         return sessionRoomMap.get(session);
     }
+
     @Override
-    public String provideName(String roomId){//랜덤이름을 가져온다 만약 이름이 이미 있다면 다른이름을 가져온다
+    public String provideName(String roomId){
+        System.out.println("lol 이름 가져오기 ");
         ChatRoom chatRoom = chatRoomMap.get(roomId);
         int nameList = chatRoom.getNameList();
         StringBuffer bf = new StringBuffer();

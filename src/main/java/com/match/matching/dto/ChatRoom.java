@@ -49,8 +49,8 @@ public class ChatRoom {
     public void enterPlayer(){
         currentPlayer++;
     }
-    public void exitPlayer(){
-        currentPlayer--;
+    public int exitPlayer(){
+        return --currentPlayer;
     }
 
     public void setNameList(int nameList){

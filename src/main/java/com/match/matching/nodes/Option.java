@@ -4,5 +4,6 @@ import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 
 public interface Option {
-    ChatRoom getRoom(Player player);
+    ChatRoom searchChatRoom(Player player);
+    void deleteNode(String roomId);
 }
