@@ -5,10 +5,7 @@ import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GameOption<T, N> implements Option{
     T option; // 내가 선택한 옵션값
@@ -34,19 +31,23 @@ public class GameOption<T, N> implements Option{
         return currentOption;
     }
     @Override
-    public ChatRoom searchChatRoom(Player player){ // 플레이어가 설정한 조건의 방이 있는지 확인한다 없으면 새로운 방을 만든다
+    public ChatRoom searchChatRoom(Player player, int line){ // 플레이어가 설정한 조건의 방이 있는지 확인한다 없으면 새로운 방을 만든다
         GameOption gameOption = getLastOption(player);
+        ChatRoom room = null;
         if(!gameOption.roomMap.isEmpty())  {
-            String key = roomMap.keySet().iterator().next();
-            return roomMap.get(key);
+            for (Object key : gameOption.roomMap.keySet()) {
+                room = (ChatRoom) gameOption.roomMap.get(key);
+                System.out.println(Integer.toBinaryString(room.getLineList()) + " / " + Integer.toBinaryString(line));
+                if((room.getLineList() & line) > 0) return room;
+            }
         }
-        ChatRoom chatRoom = new ChatRoom(player);
-        roomMap.put(chatRoom.getRoomId(), chatRoom);
-        return chatRoom;
+        room = new ChatRoom(player);
+        gameOption.roomMap.put(room.getRoomId(), room);
+        return room;
     }
 
     @Override
-    public void deleteNode(String roomId) {
+    public void removeNode(String roomId) {
         roomMap.remove(roomId);
     }
 

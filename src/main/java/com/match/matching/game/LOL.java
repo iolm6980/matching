@@ -19,7 +19,7 @@ public class LOL implements Game{
     private Map<String, ChatRoom> sessionRoomMap = new HashMap<>(); // session으로 chatroom을 찾기위한 map
     @Override
     public ChatRoom getRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
-        ChatRoom room = loLTree.getRoom(player);
+        ChatRoom room = loLTree.enterRoom(player);
         chatRoomMap.put(room.getRoomId(), room);
         return room;
     }

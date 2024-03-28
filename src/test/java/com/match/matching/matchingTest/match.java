@@ -18,20 +18,32 @@ import java.util.stream.IntStream;
 
 @SpringBootTest
 public class match {
+    @Autowired
+    ChatService chatService;
     @Test
     public void player(){
         System.out.println("player test....................");
-        LoLTree loLTree = new LoLTree();
         Player player1 = Player.builder()
                 .game(Game.LOL)
                 .isRank(IsRank.RANK)
                 .gameType(GameType.TEAM)
                 .tier(Tier.GOLD)
                 .line(Line.TOP)
-                .lineList(0)
+                .lineList(31)
                 .build();
-        ChatRoom chatRoom1 = loLTree.getRoom(player1);
-        System.out.println(chatRoom1);
+        String room = chatService.enterPlayer(player1);
+        System.out.println(room);
+
+        Player player = Player.builder()
+                .game(Game.LOL)
+                .isRank(IsRank.RANK)
+                .gameType(GameType.TEAM)
+                .tier(Tier.GOLD)
+                .line(Line.MID)
+                .lineList(1)
+                .build();
+        String room1 = chatService.enterPlayer(player);
+        System.out.println(room1);
         //System.out.println(chatRoom);
 //        LOL lol = new LOL();
 //        Player player = Player.builder()
