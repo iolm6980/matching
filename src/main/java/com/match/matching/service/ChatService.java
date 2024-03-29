@@ -40,6 +40,10 @@ public class ChatService {
         }
     }
 
+    public void add(ChatRoom chatRoom){
+        gameTree.add(chatRoom);
+    }
+
     public String provideName(String roomId){
         return gameTree.provideName(roomId);
     }

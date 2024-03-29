@@ -24,6 +24,9 @@ public interface GameTree {
     default void add(String session, ChatRoom chatRoom){
         sessionMap.put(session, chatRoom);
     }
+    default void add(ChatRoom chatRoom){
+        sessionMap.put(chatRoom.getRoomId(), chatRoom);
+    }
 
     default void remove(String roomId, String session){
         roomMap.remove(roomId);

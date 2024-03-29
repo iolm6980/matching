@@ -11,6 +11,8 @@ import com.match.matching.service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StopWatch;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,8 +24,42 @@ public class match {
     ChatService chatService;
     @Test
     public void player(){
-        System.out.println("player test....................");
-        Player player1 = Player.builder()
+        StopWatch stopWatch = new StopWatch();
+
+        Player enter = Player.builder()
+                .game(Game.LOL)
+                .isRank(IsRank.RANK)
+                .gameType(GameType.TEAM)
+                .tier(Tier.MASTER)
+                .line(Line.TOP)
+                .lineList(31)
+                .build();
+        chatService.enterPlayer(enter);
+
+        for(int i=0; i<1000000; i++){
+            ChatRoom chatRoom = ChatRoom.builder()
+                    .roomId(UUID.randomUUID().toString())
+                    .game(Game.LOL)
+                    .isRank(IsRank.getRandom())
+                    .gameType(GameType.getRandom())
+                    .tier(Tier.getRandom())
+                    .line(Line.getRandom())
+                    .lineList((int) (Math.random() * 31))
+                    .build();
+            chatService.add(chatRoom);
+        }
+        ChatRoom chatRoom = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .game(Game.LOL)
+                .isRank(IsRank.RANK)
+                .gameType(GameType.TEAM)
+                .tier(Tier.GOLD)
+                .line(Line.MID)
+                .lineList(31)
+                .build();
+        chatService.add(chatRoom);
+
+        Player player = Player.builder()
                 .game(Game.LOL)
                 .isRank(IsRank.RANK)
                 .gameType(GameType.TEAM)
@@ -31,19 +67,13 @@ public class match {
                 .line(Line.TOP)
                 .lineList(31)
                 .build();
-        String room = chatService.enterPlayer(player1);
-        System.out.println(room);
 
-        Player player = Player.builder()
-                .game(Game.LOL)
-                .isRank(IsRank.RANK)
-                .gameType(GameType.TEAM)
-                .tier(Tier.GOLD)
-                .line(Line.MID)
-                .lineList(1)
-                .build();
-        String room1 = chatService.enterPlayer(player);
-        System.out.println(room1);
+        stopWatch.start();
+        String roomId = chatService.enterPlayer(player);
+        System.out.println("roomId " + roomId);
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
+        System.out.println("코드 실행 시간 (s): " + stopWatch.getTotalTimeSeconds());
         //System.out.println(chatRoom);
 //        LOL lol = new LOL();
 //        Player player = Player.builder()
