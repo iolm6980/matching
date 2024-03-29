@@ -36,7 +36,7 @@
 <details>
 <summary>메인 페이지</summary>
  
-![메인](https://github.com/iolm6980/matching/assets/133768355/fc131396-ee37-4465-b321-3e9889344a13)
+![배포](https://github.com/iolm6980/matching/assets/133768355/d6b9f28e-3e0f-4b27-9738-1d38b9aa472b)
 </details>
 
 <details>
