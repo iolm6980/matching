@@ -6,6 +6,7 @@ import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 import org.springframework.stereotype.Component;
 
+import java.io.FilterOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +26,13 @@ public class LOL implements Game{
                         .filter(equalTier(player))
                         .filter(filterLine(player))
                         .collect(Collectors.toList());
+        System.out.println("필터링 갯수" + filterList.size());
         return filterList;
     }
 
     @Override
-    public void add(ChatRoom chatRoom){chatRoomMap.put(chatRoom.getRoomId(), chatRoom);}
+    public void add(ChatRoom chatRoom){
+        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);}
 
     @Override
     public void add(String session, String roomId){

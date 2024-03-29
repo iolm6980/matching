@@ -43,6 +43,9 @@ public class ChatService {
         ChatRoom room = game.findBySession(session);
         room.exitPlayer();
     }
+    public void add(ChatRoom room){
+        game.add(room);
+    }
 
     public String provideName(String roomId){
         return game.provideName(roomId);
