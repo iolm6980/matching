@@ -3,7 +3,6 @@ package com.match.matching.matchingTest;
 import com.match.matching.Type.*;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
-import com.match.matching.game.LOL;
 import com.match.matching.service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class match {
 
         Player enter = Player.builder()
                 .game(Game.LOL)
-                .rank(Rank.RANK)
+                .isRank(IsRank.RANK)
                 .gameType(GameType.TEAM)
                 .tier(Tier.MASTER)
                 .line(Line.TOP)
@@ -34,7 +33,7 @@ public class match {
             ChatRoom chatRoom = ChatRoom.builder()
                             .roomId(UUID.randomUUID().toString())
                             .game(Game.LOL)
-                            .rank(Rank.getRandom())
+                            .isRank(IsRank.getRandom())
                             .gameType(GameType.getRandom())
                             .tier(Tier.getRandom())
                             .line(Line.getRandom())
@@ -45,7 +44,7 @@ public class match {
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(UUID.randomUUID().toString())
                 .game(Game.LOL)
-                .rank(Rank.RANK)
+                .isRank(IsRank.RANK)
                 .gameType(GameType.TEAM)
                 .tier(Tier.GOLD)
                 .line(Line.MID)
@@ -55,7 +54,7 @@ public class match {
 
         Player player = Player.builder()
                 .game(Game.LOL)
-                .rank(Rank.RANK)
+                .isRank(IsRank.RANK)
                 .gameType(GameType.TEAM)
                 .tier(Tier.GOLD)
                 .line(Line.TOP)

@@ -121,7 +121,7 @@
     <div id="gameOptions" class="game-option">
         <!-- 롤 옵션 -->
         <label>게임 타입:</label>
-        <select name="rank">
+        <select name="isRank">
             <option value="NORMAL">일반게임</option>
             <option value="RANK">랭크게임</option>
         </select>
@@ -225,7 +225,7 @@
             gameOptionsDiv.innerHTML = `
                 <!-- 롤 옵션 -->
                 <label>게임 타입:</label>
-                <select name="rank">
+                <select name="isRank">
                     <option value="NORMAL">일반게임</option>
                     <option value="RANK">랭크게임</option>
                 </select>
@@ -292,7 +292,7 @@
                 gameOptionsDiv.innerHTML = `
                         <!-- 오버워치 옵션 -->
                         <label>게임 타입:</label>
-                        <select name="rank">
+                        <select name="isRank">
                             <option value="NORMAL">일반게임</option>
                             <option value="RANK">랭크게임</option>
                         </select>
@@ -344,7 +344,7 @@
                 gameOptionsDiv.innerHTML = `
                     <!-- 배틀그라운드 옵션 -->
                     <label>게임 타입:</label>
-                    <select name="rank">
+                    <select name="isRank">
                         <option value="NORMAL">일반게임</option>
                         <option value="RANK">랭크게임</option>
                     </select>
@@ -388,7 +388,7 @@
 
         // 입력값 검증
         var selectedGame = $("#game").val();
-        var rank = $("select[name='rank']").val();
+        var rank = $("select[name='isRank']").val();
         var gameType = $("select[name='gameType']").val();
         var tier = $("select[name='tier']").val();
         var line = $("select[name='line']").val();

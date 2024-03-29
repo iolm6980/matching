@@ -16,7 +16,7 @@ public class ChatRoom {
     private String roomId;
     private Game game;
     private Tier tier;
-    private Rank rank;
+    private IsRank isRank;
     private GameType gameType;
     private Line line;
     private int lineList;
@@ -28,7 +28,7 @@ public class ChatRoom {
         roomId = UUID.randomUUID().toString();
         game = player.getGame();
         tier = player.getTier();
-        rank = player.getRank();
+        isRank = player.getIsRank();
         gameType = player.getGameType();
         line = player.getLine();
         lineList = player.getLineList();
