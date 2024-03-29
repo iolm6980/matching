@@ -49,7 +49,8 @@
 <details>
 <summary>실행 영상</summary>
 
-https://github.com/iolm6980/movie/assets/133768355/1e3db8fb-88c0-4a13-9c12-b1c3fd4ffe9f
+
+https://github.com/iolm6980/matching/assets/133768355/fa4cd9ed-6610-4253-bc25-0ca68a446cbb
 </details>
 
   
