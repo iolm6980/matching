@@ -25,7 +25,7 @@
 ![배포](https://github.com/iolm6980/matching/assets/133768355/9d73b9b8-4daa-4c11-8404-7a70689092cc)
 
 # 매칭 방법
-![알고리즘](https://github.com/iolm6980/matching/assets/133768355/111fe983-e314-40ec-9575-acd674a26577)
+![알고리즘](https://github.com/iolm6980/matching/assets/133768355/9a3398d2-b3bd-4af6-8e32-7445abe55992)
 
 # 트리 구조
 ![트리](https://github.com/iolm6980/matching/assets/133768355/4eebca1b-b76f-4410-9aa2-290d229e98d6)
