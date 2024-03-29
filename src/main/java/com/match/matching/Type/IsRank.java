@@ -1,8 +1,8 @@
 package com.match.matching.Type;
 
-public enum Rank {
+public enum IsRank {
     NORMAL, RANK;
-    public static Rank getRandom(){
+    public static IsRank getRandom(){
         return values()[(int)(Math.random() * values().length)];
     }
 }

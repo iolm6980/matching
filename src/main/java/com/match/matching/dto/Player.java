@@ -12,7 +12,7 @@ public class Player {
     private Game game;
     private GameType gameType;
     private Tier tier;
-    private Rank rank;
+    private IsRank isRank;
     private Line line;
     private int lineList;
     private int maxPeople;

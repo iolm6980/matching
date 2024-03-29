@@ -17,14 +17,14 @@ public class Pubg implements Game{
     private Map<String, ChatRoom> chatRoomMap = new HashMap<>(); // id로 chatRoom을 찾기위한 map
     private Map<String, ChatRoom> sessionRoomMap = new HashMap<>(); // session으로 chatroom을 찾기위한 map
     @Override
-    public List<ChatRoom> getFilteringRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
+    public ChatRoom getRoom(Player player){//플레이어가 설정한 조건에 맞는 방을 검색해서 반환
         List<ChatRoom> filterList =
                 chatRoomMap.values().stream()
                         .filter(equalRank(player))
                         .filter(equalType(player))
                         .filter(equalTier(player))
                         .collect(Collectors.toList());
-        return filterList;
+        return filterList.get(0);
     }
 
     @Override

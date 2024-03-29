@@ -39,7 +39,7 @@ public class ChatRoomController {
         System.out.println("chatRoom.............");
         String username = chatService.provideName(roomId);
         System.out.println("부여받은 이름 " +  username);
-        model.addAttribute("room", chatService.findRoomById(roomId));
+        model.addAttribute("room", chatService.findByRoomId(roomId));
         model.addAttribute("username", username);
     }
 
@@ -64,7 +64,7 @@ public class ChatRoomController {
     public ResponseEntity<Integer> people(@PathVariable(value = "roomId") String roomId){ // 현재 방에 있는 사용자 수를 반환한다
         Integer currentPeople;
         try {
-            currentPeople = chatService.findRoomById(roomId).getCurrentPlayer();
+            currentPeople = chatService.findByRoomId(roomId).getCurrentPlayer();
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
