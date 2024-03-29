@@ -22,7 +22,7 @@
 * 같은 채팅방에 있는 사용자들과 채팅
 
 # 배포 과정
-![배포](https://github.com/iolm6980/matching/assets/133768355/a4c7fbd2-7377-4f73-b117-2015749e5e04)
+![배포](https://github.com/iolm6980/matching/assets/133768355/9d73b9b8-4daa-4c11-8404-7a70689092cc)
 
 # 매칭 방법
 ![알고리즘](https://github.com/iolm6980/matching/assets/133768355/111fe983-e314-40ec-9575-acd674a26577)
@@ -35,8 +35,8 @@
 
 <details>
 <summary>메인 페이지</summary>
- 
-![배포](https://github.com/iolm6980/matching/assets/133768355/d6b9f28e-3e0f-4b27-9738-1d38b9aa472b)
+
+![메인](https://github.com/iolm6980/matching/assets/133768355/1a7ba75a-b81c-4d69-8f58-8ef78cb40292)
 </details>
 
 <details>
