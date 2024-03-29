@@ -11,7 +11,7 @@
 * BE
   * Spring Boot
   * Java
-*ETC
+* ETC
   * Aws
   * Docker
   * Jenkins
