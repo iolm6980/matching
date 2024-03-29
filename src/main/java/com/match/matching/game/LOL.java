@@ -4,7 +4,7 @@ import com.match.matching.Type.GameType;
 import com.match.matching.Type.Line;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
-import com.match.matching.nodes.LoLTree;
+import com.match.matching.tree.LoLTree;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

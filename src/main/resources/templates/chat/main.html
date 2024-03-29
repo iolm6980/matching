@@ -210,7 +210,7 @@
             gameOptionsDiv.innerHTML = `
                 <!-- 롤 옵션 -->
                 <label>게임 타입:</label>
-                <select name="rank">
+                <select name="isRank">
                     <option value="NORMAL">일반게임</option>
                     <option value="RANK">랭크게임</option>
                 </select>
@@ -277,7 +277,7 @@
                 gameOptionsDiv.innerHTML = `
                         <!-- 오버워치 옵션 -->
                         <label>게임 타입:</label>
-                        <select name="rank">
+                        <select name="isRank">
                             <option value="NORMAL">일반게임</option>
                             <option value="RANK">랭크게임</option>
                         </select>
@@ -329,7 +329,7 @@
                 gameOptionsDiv.innerHTML = `
                     <!-- 배틀그라운드 옵션 -->
                     <label>게임 타입:</label>
-                    <select name="rank">
+                    <select name="isRank">
                         <option value="NORMAL">일반게임</option>
                         <option value="RANK">랭크게임</option>
                     </select>
@@ -351,7 +351,9 @@
                         <option value="PLATINUM">플래티넘</option>
                         <option value="DIAMOND">다이아</option>
                         <option value="MASTER">마스터</option>
-                    </select>`;
+                    </select>
+                    <input type="hidden" id="lineList" name="lineList" value="1">
+                </div>`;
             backgroundImageUrl = "url('https://ifh.cc/g/KQaOHJ.jpg')";
         }
 

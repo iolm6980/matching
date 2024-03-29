@@ -1,15 +1,12 @@
-package com.match.matching.nodes;
+package com.match.matching.tree;
 
-import com.match.matching.Type.*;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 public interface GameTree {
     HashMap<String, ChatRoom> roomMap = new HashMap<>();
-    HashMap<String, ChatRoom> sessionMap = new HashMap<>();
     ChatRoom enterRoom(Player player);
     void removeChild(String roomId);
     String provideName(String roomId);
@@ -17,20 +14,13 @@ public interface GameTree {
     default ChatRoom findByRoomId(String roomId){
         return roomMap.get(roomId);
     }
-    default ChatRoom findBySession(String session){
-        return sessionMap.get(session);
-    };
 
-    default void add(String session, ChatRoom chatRoom){
-        sessionMap.put(session, chatRoom);
-    }
     default void add(ChatRoom chatRoom){
-        sessionMap.put(chatRoom.getRoomId(), chatRoom);
+        roomMap.put(chatRoom.getRoomId(), chatRoom);
     }
 
-    default void remove(String roomId, String session){
+    default void remove(String roomId){
         roomMap.remove(roomId);
-        sessionMap.remove(session);
     }
 
 }

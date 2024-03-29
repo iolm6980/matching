@@ -220,10 +220,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
+
     document.addEventListener("DOMContentLoaded", function() {
         var inputField = document.getElementById("msg");
 
-        inputField.addEventListener("keydown", function(event) {
+        inputField.addEventListener("keydown", function(event) { //엔터눌렀을때 메시지 전송
             if (event.key === "Enter") {
                 event.preventDefault(); // 기본 엔터 동작 방지
                 document.getElementById("send-button").click(); // 제출 버튼 클릭
@@ -272,7 +273,7 @@
 
 
         //2. connection이 맺어지면 실행
-        if([[${room.currentPlayer}]] < [[${room.maxPlayer}]]){
+        if([[${room.currentPlayer}]] <= [[${room.maxPlayer}]]){
             var stomp = Stomp.over(sockJs);
 
             stomp.connect({}, function (){
@@ -306,7 +307,8 @@
                 stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'ENTER'}))
             });
         }else{
-            alert("방의 인원이 가득차있습니다");
+            alert("방의 인원이 가득차있습니다 " + [[${room.currentPlayer}]] + " / " +  [[${room.maxPlayer}]]);
+
             location.replace("/chat/main");
         }
 
@@ -327,17 +329,19 @@
 
       window.addEventListener('popstate', function(event) { // 뒤로가기 눌렀을 떄
             exitPlayer();
+            $(".exit-form").submit();
        });
 
+      window.addEventListener('beforeunload', function(event) { //페이지 이동시
+            exitPlayer();
+            $(".exit-form").submit();
+      });
       function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation) {
                 stomp.send('/pub/chat/exit', {messageType:"exit"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
             }
       }
-      stomp.ws.onclose = function() {
-        alert('소켓이 해제되었습니다.');
-    };
 });
 
 

@@ -36,17 +36,14 @@ public class ChatRoomController {
     private final ChatService chatService;
     @GetMapping("/room")
     public void roomInfo(@RequestParam(value = "roomId") String roomId, Model model) {
-        System.out.println("chatRoom.............");
         String username = chatService.provideName(roomId);
-        System.out.println("부여받은 이름 " +  username);
         model.addAttribute("room", chatService.findByRoomId(roomId));
         model.addAttribute("username", username);
     }
 
     @PostMapping("/exit")
     public String exit(@RequestParam(value = "roomId") String roomId, @RequestParam(value = "username") String username){
-        System.out.println("나가기 " + username + " / " + roomId);
-        chatService.collectName(roomId, username);
+        chatService.exitPlayer(roomId, username);
         return "redirect:/chat/main";
     }
 
@@ -54,8 +51,7 @@ public class ChatRoomController {
     public void mainPage(){
     }
     @PostMapping("/match")
-    public String matching(Player player, HttpServletResponse response) throws IOException {
-        System.out.println("player........" + player.getGame() + " / " +player.getGameType() + " / " + player.getTier() + " / " + Integer.toBinaryString(player.getLineList()));
+    public String matching(Player player) throws IOException {
         String roomId = chatService.enterPlayer(player);
         return "redirect:/chat/room?roomId=" + roomId;
     }

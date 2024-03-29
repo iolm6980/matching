@@ -1,15 +1,14 @@
-package com.match.matching.nodes;
+package com.match.matching.node;
 
 import com.match.matching.Type.*;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
-public class GameOption<T, N> implements Option{
-    T option; // 내가 선택한 옵션값
-    N nextOption; // 다음 옵션
+public class GameOption<T, N> implements Option {
+    private T option; // 내가 선택한 옵션값
+    private N nextOption; // 다음 옵션
     HashMap<T, GameOption> optionMap; // 플레이어가 설정한 옵션값을 찾기위해 map으로 옵션을 저장한다
     HashMap<String, ChatRoom> roomMap; // 리프노드에 room을 저장한다
     public GameOption(T option){
@@ -28,6 +27,7 @@ public class GameOption<T, N> implements Option{
             Object nextOptionValue = currentOption.getTField(player);
             currentOption = (GameOption) currentOption.optionMap.get(nextOptionValue);
         }
+        System.out.println(currentOption);
         return currentOption;
     }
     @Override
@@ -37,13 +37,19 @@ public class GameOption<T, N> implements Option{
         if(!gameOption.roomMap.isEmpty())  {
             for (Object key : gameOption.roomMap.keySet()) {
                 room = (ChatRoom) gameOption.roomMap.get(key);
-                System.out.println(Integer.toBinaryString(room.getLineList()) + " / " + Integer.toBinaryString(line));
-                if((room.getLineList() & line) > 0) return room;
+                if(((room.getLineList() & line) > 0) && (room.getCurrentPlayer() < room.getMaxPlayer())) return room;
             }
         }
         room = new ChatRoom(player);
         gameOption.roomMap.put(room.getRoomId(), room);
         return room;
+    }
+    public T getOption(){
+        return option;
+    }
+
+    public void setNextOption(N nextOption){
+        this.nextOption = nextOption;
     }
 
     @Override

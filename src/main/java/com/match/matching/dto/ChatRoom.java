@@ -46,10 +46,10 @@ public class ChatRoom {
             default: return 0;
         }
     }
-    public void enterPlayer(){
+    public void plusPlayer(){
         currentPlayer++;
     }
-    public int exitPlayer(){
+    public int minusPlayer(){
         return --currentPlayer;
     }
 

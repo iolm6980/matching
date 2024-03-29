@@ -20,7 +20,6 @@ public class ChatController {
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatMsg message){
-       // message.setMessage(message.getMessage()); //이거 지우면 메시지가 화면에 출력이 안된다 setAllowedOrigins -> setAllowedOriginPatterns 로 바꿔줬더니 지워도 실행이 된다
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
@@ -36,17 +35,4 @@ public class ChatController {
         messageTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
-
-
-
-//    @PostMapping
-//    public ChatRoom createRoom(@RequestParam(value = "name") String name){
-//        System.out.println("create Room............." + name);
-//        return chatService.createRoom(name);
-//    }
-
-//    @GetMapping
-//    public List<ChatRoom> findAllRoom(){
-//        return chatService.findAllRoom();
-//    }
 }

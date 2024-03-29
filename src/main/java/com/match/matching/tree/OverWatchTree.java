@@ -1,46 +1,42 @@
-package com.match.matching.nodes;
+package com.match.matching.tree;
 
 import com.match.matching.Type.*;
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
+import com.match.matching.node.GameOption;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Component
-public class LoLTree implements GameTree{
+public class OverWatchTree implements GameTree{
     GameOption nodes;
-    public LoLTree(){ // 롤 -> 랭크여부 -> 티어 순으로 트리를 만든다
-        nodes = new GameOption<>(Game.LOL);
+    public OverWatchTree(){ // 오버워치 -> 랭크여부 -> 게임 타입 -> 티어 순으로 트리를 만든다
+        nodes = new GameOption<>(Game.OVERWATCH);
 
         List<GameOption> isRankList = Arrays.asList(new GameOption<>(IsRank.RANK), new GameOption<>(IsRank.NORMAL));
-        List<GameOption> gameTypeList = Arrays.asList(new GameOption<>(GameType.ARAM), new GameOption<>(GameType.TFT),
-                new GameOption<>(GameType.DUO), new GameOption<>(GameType.TEAM));
+        List<GameOption> gameTypeList = Arrays.asList(new GameOption<>(GameType.FIXEDROLE), new GameOption<>(GameType.FREEROLE));
         List<GameOption> tierList = Arrays.asList(new GameOption<>(Tier.BRONZE), new GameOption<>(Tier.SILVER),
                 new GameOption<>(Tier.GOLD), new GameOption<>(Tier.PLATINUM),
-                new GameOption<>(Tier.EMERALD), new GameOption<>(Tier.DIAMOND),
-                new GameOption<>(Tier.MASTER), new GameOption<>(Tier.GRANDMASTER),
-                new GameOption<>(Tier.CHALLENGER));
+                new GameOption<>(Tier.DIAMOND), new GameOption<>(Tier.MASTER),
+                new GameOption<>(Tier.GRANDMASTER), new GameOption<>(Tier.CHALLENGER));
 
         for (GameOption rankOption : isRankList) {
             nodes.addChild(rankOption);
-            nodes.nextOption = IsRank.RANK;
+            nodes.setNextOption(IsRank.RANK);
         }
 
         for(GameOption rankOption: isRankList){
             for (GameOption typeOption : gameTypeList) {
-                if(rankOption.option == IsRank.RANK && typeOption.option == GameType.ARAM) continue;
                 rankOption.addChild(typeOption);
-                rankOption.nextOption = GameType.TFT;
+                rankOption.setNextOption(GameType.FIXEDROLE);
             }
         }
 
         for (GameOption typeOption : gameTypeList) {
             for(GameOption tierOption: tierList){
-                if(typeOption.option == GameType.TFT || typeOption.option == GameType.ARAM) continue;
                 typeOption.addChild(tierOption);
-                typeOption.nextOption = Tier.BRONZE;
+                typeOption.setNextOption(Tier.BRONZE);
             }
         }
     }
@@ -59,29 +55,32 @@ public class LoLTree implements GameTree{
 
     @Override
     public String provideName(String roomId){
-        System.out.println("lol 이름 가져오기 ");
         ChatRoom chatRoom = roomMap.get(roomId);
         int nameList = chatRoom.getNameList();
         StringBuffer bf = new StringBuffer();
         if(!((nameList & (1<<0)) > 0)) {
-            bf.append("칼날부리");
+            bf.append("트레이서");
             nameList = nameList | (1<<0);
         }
         else if(!((nameList & (1<<1)) > 0)){
-            bf.append("돌거북");
+            bf.append("키리코");
             nameList = nameList | (1<<1);
         }
         else if(!((nameList & (1<<2)) > 0)){
-            bf.append("심술두꺼비");
+            bf.append("디바");
             nameList = nameList | (1<<2);
         }
         else if(!((nameList & (1<<3)) > 0)){
-            bf.append("바위게");
+            bf.append("솔저");
             nameList = nameList | (1<<3);
         }
         else if(!((nameList & (1<<4)) > 0)){
-            bf.append("어스름늑대");
+            bf.append("리퍼");
             nameList = nameList | (1<<4);
+        }
+        else if(!((nameList & (1<<5)) > 0)){
+            bf.append("래킹볼");
+            nameList = nameList | (1<<5);
         }
         chatRoom.setNameList(nameList);
         return bf.toString();
@@ -91,21 +90,19 @@ public class LoLTree implements GameTree{
     public void collectName(String roomId, String name){
         ChatRoom chatRoom = roomMap.get(roomId);
         int nameList = chatRoom.getNameList();
-        if(name.equals("칼날부리")) nameList = nameList ^ (1<<0);
-        else if(name.equals("돌거북")) nameList = nameList ^ (1<<1);
-        else if(name.equals("심술두꺼비")) nameList = nameList ^ (1<<2);
-        else if(name.equals("바위게")) nameList = nameList ^ (1<<3);
-        else if(name.equals("어스름늑대")) nameList = nameList ^ (1<<4);
+        if(name.equals("트레이서")) nameList = nameList ^ (1<<0);
+        else if(name.equals("키리코")) nameList = nameList ^ (1<<1);
+        else if(name.equals("디바")) nameList = nameList ^ (1<<2);
+        else if(name.equals("솔저")) nameList = nameList ^ (1<<3);
+        else if(name.equals("리퍼")) nameList = nameList ^ (1<<4);
+        else if(name.equals("래킹볼")) nameList = nameList ^ (1<<5);
         chatRoom.setNameList(nameList);
-        System.out.println(name + " 회수함.....");
     }
 
-    private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
-        if(line == Line.TOP) return (1 << 0);
-        else if(line == Line.JUNGLE) return (1 << 1);
-        else if(line == Line.MID) return (1 << 2);
-        else if(line == Line.AD) return (1 << 3);
-        else if(line == Line.SUPPORTER) return (1 << 4);
+    private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탱커 1:딜러 2:힐러
+        if(line == Line.TANKER) return (1 << 0);
+        else if(line == Line.DEALER) return (1 << 1);
+        else if(line == Line.HEALER) return (1 << 2);
         else return 0;
     }
 }

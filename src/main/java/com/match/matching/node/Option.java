@@ -1,4 +1,4 @@
-package com.match.matching.nodes;
+package com.match.matching.node;
 
 import com.match.matching.dto.ChatRoom;
 import com.match.matching.dto.Player;
