@@ -15,7 +15,7 @@ import java.util.*;
 public class match {
     @Test
     public void player(){
-
+        System.out.println("----테스트----");
     }
 
 
