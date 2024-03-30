@@ -1,6 +1,5 @@
 package com.match.matching.config;
 
-import com.match.matching.handler.StompHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
