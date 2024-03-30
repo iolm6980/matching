@@ -2,7 +2,7 @@ version: '3'
 
 services:
   match:
-    container_name: match
+    container_name: a
     build: .
     ports:
       - "8090:8090"
