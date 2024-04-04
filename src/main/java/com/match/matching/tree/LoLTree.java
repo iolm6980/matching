@@ -36,7 +36,7 @@ public class LoLTree implements GameTree{
             }
         }
 
-        for (GameOption typeOption : gameTypeList) { // 게임타입 옵션 및에 티어 연결 칼바람
+        for (GameOption typeOption : gameTypeList) { // 게임타입 옵션 및에 티어 연결
             for(GameOption tierOption: tierList){
                 typeOption.addChild(tierOption);
                 typeOption.setNextOption(Tier.BRONZE);

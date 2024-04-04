@@ -16,4 +16,8 @@ public class Player {
     private Line line;
     private int lineList;
     private int maxPeople;
+
+    public Player(Player player) {
+
+    }
 }

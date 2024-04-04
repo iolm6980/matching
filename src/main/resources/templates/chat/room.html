@@ -324,22 +324,21 @@
       $("#exit-button").on("click", function(e){
         e.preventDefault();
         exitPlayer();
-        $(".exit-form").submit();
       });
 
       window.addEventListener('popstate', function(event) { // 뒤로가기 눌렀을 떄
             exitPlayer();
-            $(".exit-form").submit();
        });
 
       window.addEventListener('beforeunload', function(event) { //페이지 이동시
             exitPlayer();
-            $(".exit-form").submit();
+
       });
       function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
-            if (confirmation) {
+            if (confirmation === true) { // 명시적으로 true와 비교
                 stomp.send('/pub/chat/exit', {messageType:"exit"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
+                $(".exit-form").submit();
             }
       }
 });
