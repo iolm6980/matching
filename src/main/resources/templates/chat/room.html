@@ -190,7 +190,7 @@
             <p>게임타입: <span id="gameType">[[${room.isRank}]] - [[${room.gameType}]]</span></p>
             <p>티어: <span id="tier">[[${room.tier}]]</span></p>
             <p>인원수:<span id="currentPlayers">[[${room.currentPlayer}]]</span> / <span id="maxPlayers">[[${room.maxPlayer}]]</span></p>
-            <p>구하는 라인: <span id="lineList">[[${room.lineList}]]</span></p>
+            <p>구하는 라인: <span id="lineList"></span></p>
         </div>
 
         <div id="exit-container">
@@ -337,7 +337,7 @@
       function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation === true) { // 명시적으로 true와 비교
-                stomp.send('/pub/chat/exit', {messageType:"exit"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
+                stomp.send('/pub/chat/exit', {userName: "123"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
                 $(".exit-form").submit();
             }
       }

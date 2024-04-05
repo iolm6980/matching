@@ -10,7 +10,7 @@ public class GameOption<T, N> implements Option {
     private T option; // 내가 선택한 옵션값
     private N nextOption; // 다음 옵션
     HashMap<T, GameOption> optionMap = new HashMap<>();; // 플레이어가 설정한 옵션값을 찾기위해 map으로 옵션을 저장한다
-    HashMap<String, ChatRoom> roomMap = new LinkedHashMap<>();; // 리프노드에 room을 저장한다
+    static HashMap<String, ChatRoom> roomMap = new LinkedHashMap<>();; // 리프노드에 room을 저장한다
     public GameOption(T option){
         this.option = option;
     }
@@ -35,18 +35,15 @@ public class GameOption<T, N> implements Option {
 
         if (room == null && player.getTier() != Tier.CHALLENGER) { //방이 없으면 현재 티어보다 하나 높은곳에서 검색
             player.setTier(Tier.UpTier(player.getTier()));
-            System.out.println("업 탐색" + player.getTier());
             room = tierSearch(player, line);
         }
         player.setTier(saveTier);
         if (room == null && player.getTier() != Tier.BRONZE) {//방이 없으면 현재 티어보다 하나 낮은곳에서 검색
             player.setTier(Tier.DownTier(player.getTier()));
-            System.out.println("다운 탐색" + player.getTier());
             room = tierSearch(player, line);
         }
         player.setTier(saveTier);
         if(room == null) { // 그래도 방이없으면 방을 하나 새로 만든다
-            System.out.println("새로하나만듬");
             room = new ChatRoom(player);
             gameOption.roomMap.put(room.getRoomId(), room);
         }
