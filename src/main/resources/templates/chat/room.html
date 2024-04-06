@@ -199,7 +199,6 @@
                 <input type="hidden" name="username" id="username" th:value="${username}">
                 <button id="exit-button">나가기</button>
             </form>
-
         </div>
     </div>
     <div id="center-container">
@@ -271,7 +270,6 @@
         transToLineList();
 
 
-
         //2. connection이 맺어지면 실행
         if([[${room.currentPlayer}]] <= [[${room.maxPlayer}]]){
             var stomp = Stomp.over(sockJs);
@@ -326,23 +324,14 @@
         exitPlayer();
       });
 
-      window.addEventListener('popstate', function(event) { // 뒤로가기 눌렀을 떄
-            exitPlayer();
-       });
-
-      window.addEventListener('beforeunload', function(event) { //페이지 이동시
-            exitPlayer();
-
-      });
       function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation === true) { // 명시적으로 true와 비교
-                stomp.send('/pub/chat/exit', {userName: "123"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
+                stomp.send('/pub/chat/exit', {userName: [[${username}]] , type: "EXIT"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
                 $(".exit-form").submit();
             }
       }
 });
-
 
 </script>
 </body>

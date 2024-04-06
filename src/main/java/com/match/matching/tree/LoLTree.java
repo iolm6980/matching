@@ -46,7 +46,7 @@ public class LoLTree implements GameTree{
 
     @Override
     public ChatRoom enterRoom(Player player) {
-        ChatRoom room = nodes.searchChatRoom(player, lineToInt(player.getLine()));
+        ChatRoom room = nodes.searchChatRoom(player, lineToInt(player));
         roomMap.put(room.getRoomId(), room);
         return room;
     }
@@ -81,6 +81,18 @@ public class LoLTree implements GameTree{
             bf.append("어스름늑대");
             nameList = nameList | (1<<4);
         }
+        else if(!((nameList & (1<<5)) > 0)){
+            bf.append("블루");
+            nameList = nameList | (1<<5);
+        }
+        else if(!((nameList & (1<<6)) > 0)){
+            bf.append("레드");
+            nameList = nameList | (1<<6);
+        }
+        else if(!((nameList & (1<<7)) > 0)){
+            bf.append("드래곤");
+            nameList = nameList | (1<<7);
+        }
         chatRoom.setNameList(nameList);
         return bf.toString();
     }
@@ -94,10 +106,14 @@ public class LoLTree implements GameTree{
         else if(name.equals("심술두꺼비")) nameList = nameList ^ (1<<2);
         else if(name.equals("바위게")) nameList = nameList ^ (1<<3);
         else if(name.equals("어스름늑대")) nameList = nameList ^ (1<<4);
+        else if(name.equals("블루")) nameList = nameList ^ (1<<5);
+        else if(name.equals("레드")) nameList = nameList ^ (1<<6);
+        else if(name.equals("드래곤")) nameList = nameList ^ (1<<7);
         chatRoom.setNameList(nameList);
     }
 
-    private int lineToInt(Line line){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
+    private int lineToInt(Player player){// 라인을 숫자로 바꿔서 반환 0:탑 1:정글 2:미드 3:원딜 4:서폿
+        Line line = player.getLine();
         if(line == Line.TOP) return (1 << 0);
         else if(line == Line.JUNGLE) return (1 << 1);
         else if(line == Line.MID) return (1 << 2);

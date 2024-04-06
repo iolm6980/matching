@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,9 +19,11 @@ public class StompHandler implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-        String roomId = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId").replace("/sub/chat/room/" , "");
+        String roomId = accessor.getFirstNativeHeader("roomId");
         String userName = accessor.getFirstNativeHeader("userName");
-        if ((StompCommand.DISCONNECT == accessor.getCommand())) {
+        String messageType = accessor.getFirstNativeHeader("type");
+        System.out.println(messageType + " / " + userName + " / " + roomId);
+        if ((StompCommand.DISCONNECT == accessor.getCommand()) || messageType == "EXIT") {
             System.out.println("사용자 이름 " + userName);
             //chatService.exitPlayer(roomId, );
         }

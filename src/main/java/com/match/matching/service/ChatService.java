@@ -43,4 +43,8 @@ public class ChatService {
     public String provideName(String roomId){
         return gameTree.provideName(roomId); // 이름을 부여받음
     }
+
+    public void collectName(String roomId, String name){
+        gameTree.collectName(roomId, name);
+    }
 }

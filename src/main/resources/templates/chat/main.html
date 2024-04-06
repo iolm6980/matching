@@ -128,7 +128,7 @@
         </select>
 
         <!-- 롤 추가 옵션 -->
-        <select name="gameType">
+        <select id="gameType" name="gameType" onchange="gameOption()">
             <option value="">게임 타입 선택</option>
             <option value="TEAM">자유</option>
             <option value="DUO">듀오</option>
@@ -149,36 +149,38 @@
             <option value="CHALLENGER">챌린저</option>
         </select>
 
-        <label>라인:</label>
-        <select name="line">
-            <option value="">라인 선택</option>
-            <option value="TOP">탑</option>
-            <option value="JUNGLE">정글</option>
-            <option value="MID">미드</option>
-            <option value="AD">원딜</option>
-            <option value="SUPPORTER">서폿</option>
-        </select>
+        <div class="line-area">
+            <label>라인:</label>
+            <select name="line" id="line">
+                <option value="">라인 선택</option>
+                <option value="TOP">탑</option>
+                <option value="JUNGLE">정글</option>
+                <option value="MID">미드</option>
+                <option value="AD">원딜</option>
+                <option value="SUPPORTER">서폿</option>
+            </select>
 
-        <label>구하는 라인:</label>
-        <div class="checkbox-wrapper">
-            <label>탑</label>
-            <input class="form-check-input" type="checkbox" value="0">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>정글</label>
-            <input class="form-check-input" type="checkbox" value="1">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>미드</label>
-            <input class="form-check-input" type="checkbox" value="2">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>원딜</label>
-            <input class="form-check-input" type="checkbox" value="3">
-        </div>
-        <div class="checkbox-wrapper">
-            <label>서폿</label>
-            <input class="form-check-input" type="checkbox" value="4">
+            <label>구하는 라인:</label>
+            <div class="checkbox-wrapper">
+                <label>탑</label>
+                <input class="form-check-input" type="checkbox" value="0">
+            </div>
+            <div class="checkbox-wrapper">
+                <label>정글</label>
+                <input class="form-check-input" type="checkbox" value="1">
+            </div>
+            <div class="checkbox-wrapper">
+                <label>미드</label>
+                <input class="form-check-input" type="checkbox" value="2">
+            </div>
+            <div class="checkbox-wrapper">
+                <label>원딜</label>
+                <input class="form-check-input" type="checkbox" value="3">
+            </div>
+            <div class="checkbox-wrapper">
+                <label>서폿</label>
+                <input class="form-check-input" type="checkbox" value="4">
+            </div>
         </div>
         <input type="hidden" id="lineList" name="lineList" value="0">
     </div>
@@ -232,7 +234,7 @@
                 </select>
 
                 <!-- 롤 추가 옵션 -->
-                <select name="gameType">
+                <select id="gameType" name="gameType" onchange="gameOption()">
                     <option value="">게임 타입 선택</option>
                     <option value="TEAM">자유</option>
                     <option value="DUO">듀오</option>
@@ -253,36 +255,38 @@
                                 <option value="CHALLENGER">챌린저</option>
                             </select>
 
-                            <label>라인:</label>
-                            <select name="line">
-                                <option value="">라인 선택</option>
-                                <option value="TOP">탑</option>
-                                <option value="JUNGLE">정글</option>
-                                <option value="MID">미드</option>
-                                <option value="AD">원딜</option>
-                                <option value="SUPPORTER">서폿</option>
-                            </select>
+                            <div class="line-area">
+                                <label>라인:</label>
+                                <select name="line" id="line">
+                                    <option value="">라인 선택</option>
+                                    <option value="TOP">탑</option>
+                                    <option value="JUNGLE">정글</option>
+                                    <option value="MID">미드</option>
+                                    <option value="AD">원딜</option>
+                                    <option value="SUPPORTER">서폿</option>
+                                </select>
 
-                            <label>구하는 라인:</label>
-                            <div class="checkbox-wrapper">
-                                <label>탑</label>
-                                <input class="form-check-input" type="checkbox" value="0">
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <label>정글</label>
-                                <input class="form-check-input" type="checkbox" value="1">
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <label>미드</label>
-                                <input class="form-check-input" type="checkbox" value="2">
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <label>원딜</label>
-                                <input class="form-check-input" type="checkbox" value="3">
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <label>서폿</label>
-                                <input class="form-check-input" type="checkbox" value="4">
+                                <label>구하는 라인:</label>
+                                <div class="checkbox-wrapper">
+                                    <label>탑</label>
+                                    <input class="form-check-input" type="checkbox" value="0">
+                                </div>
+                                <div class="checkbox-wrapper">
+                                    <label>정글</label>
+                                    <input class="form-check-input" type="checkbox" value="1">
+                                </div>
+                                <div class="checkbox-wrapper">
+                                    <label>미드</label>
+                                    <input class="form-check-input" type="checkbox" value="2">
+                                </div>
+                                <div class="checkbox-wrapper">
+                                    <label>원딜</label>
+                                    <input class="form-check-input" type="checkbox" value="3">
+                                </div>
+                                <div class="checkbox-wrapper">
+                                    <label>서폿</label>
+                                    <input class="form-check-input" type="checkbox" value="4">
+                                </div>
                             </div>
                             <input type="hidden" id="lineList" name="lineList" value="0">
                      </div>
@@ -380,6 +384,19 @@
         }
     }
 
+    function gameOption(){
+        var option = document.getElementById("gameType").value;
+        if(option === "TFT" || option === "ARAM"){
+            $(".line-area").hide();
+            $("#lineList").val(31);
+            $("#line").val('TOP');
+            console.log($("#line").val());
+        }else{
+            $(".line-area").show();
+            $("#lineList").val(0);
+        }
+    }
+
     $(document).ready(function() {
     // 폼 제출 시 실행되는 함수
     $("form").submit(function(event) {
@@ -396,7 +413,7 @@
         var tier = $("select[name='tier']").val();
         var line = $("select[name='line']").val();
         var lineList = $("#lineList").val();
-        console.log('select ' + selectedGame + ' rank ' + rank + ' gameType ' + gameType + 'tier' + tier + 'line' + line + 'lineList' + lineList);
+        console.log('select ' + selectedGame + ' rank ' + rank + ' gameType ' + gameType + 'tier' + tier + 'line' + line + ' lineList ' + lineList);
         // 오류가 있는지 확인하기 위한 변수
         var hasError = false;
 
