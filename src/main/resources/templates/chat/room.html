@@ -302,7 +302,7 @@
                 });
 
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
-                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'ENTER'}))
+                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: [[${username}]]}))
             });
         }else{
             alert("방의 인원이 가득차있습니다 " + [[${room.currentPlayer}]] + " / " +  [[${room.maxPlayer}]]);
@@ -314,7 +314,7 @@
       $("#send-button").on("click", function(e){
             var msg = document.getElementById("msg").value.trim(); // 메시지 내용 가져오고 양쪽 공백 제거
             if (msg !== "") { // 메시지가 비어 있지 않으면 전송
-                stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg, writer: [[${username}]], messageType:'MESSAGE'}));
+                stomp.send('/pub/chat/message', {messageType:'MESSAGE'}, JSON.stringify({roomId: roomId, message: msg, writer: [[${username}]]}));
                 document.getElementById("msg").value = ''; // 입력 필드 비우기
             }
       });
@@ -327,7 +327,7 @@
       function exitPlayer(){
           var confirmation = confirm("정말로 나가시겠습니까?"); // 사용자에게 경고 메시지 표시
             if (confirmation === true) { // 명시적으로 true와 비교
-                stomp.send('/pub/chat/exit', {userName: [[${username}]] , type: "EXIT"}, JSON.stringify({roomId: roomId, writer: [[${username}]], messageType:'EXIT'}));
+                stomp.send('/pub/chat/exit', {userName: [[${username}]] , type: "EXIT"}, JSON.stringify({roomId: roomId, writer: [[${username}]]}));
                 $(".exit-form").submit();
             }
       }
