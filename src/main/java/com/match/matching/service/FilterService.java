@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 @Service
 public class FilterService {
-    private final String ROOT_PATH = "/var/jenkins_home/workspace/match/";
+    private final String ROOT_PATH = File.separator + "var" + File.separator + "jenkins_home"+ File.separator +"workspace"+ File.separator +"match"+ File.separator;
     private String PROFANITY_PATTERN;
 
     @PostConstruct
