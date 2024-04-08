@@ -3,6 +3,7 @@ package com.match.matching.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -23,9 +24,10 @@ public class FilterService {
     public void init() throws IOException {
         try{
             PROFANITY_PATTERN =  Files.readString(Paths.get(ROOT_PATH + "Profanity.txt")).replaceAll("\\\"", "");
-        } catch (Exception e){
+        } catch (BeanCreationException e){
             Path path = Paths.get(ROOT_PATH + "test.txt");
             Files.write(path, "123".getBytes());
+            System.out.println(e);
         }
     }
     public String filterProfanity(JsonNode jsonNode){
