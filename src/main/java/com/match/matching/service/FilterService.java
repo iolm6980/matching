@@ -18,7 +18,7 @@ public class FilterService {
 
     @PostConstruct
     public void init() throws IOException {
-        PROFANITY_PATTERN =  Files.readString(Paths.get("/var/jenkins_home/workspace/match/Profanity")).replaceAll("\\\"", "");
+        PROFANITY_PATTERN =  Files.readString(Paths.get("/var/jenkins_home/workspace/match/Profanity.txt")).replaceAll("\\\"", "");
     }
     public String filterProfanity(JsonNode jsonNode){
         String message = jsonNode.get("message").asText();
