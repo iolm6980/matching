@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,11 +15,17 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 @Service
 public class FilterService {
+    private final String ROOT_PATH = "/var/jenkins_home/workspace/match/";
     private String PROFANITY_PATTERN;
 
     @PostConstruct
     public void init() throws IOException {
-        PROFANITY_PATTERN =  Files.readString(Paths.get("/var/jenkins_home/workspace/match/Profanity.txt")).replaceAll("\\\"", "");
+        try{
+            PROFANITY_PATTERN =  Files.readString(Paths.get(ROOT_PATH + "Profanity.txt")).replaceAll("\\\"", "");
+        } catch (NoSuchFieldError e){
+            Path path = Paths.get(ROOT_PATH + "test.txt");
+            Files.write(path, "123".getBytes());
+        }
     }
     public String filterProfanity(JsonNode jsonNode){
         String message = jsonNode.get("message").asText();
