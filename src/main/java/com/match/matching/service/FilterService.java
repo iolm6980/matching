@@ -3,6 +3,7 @@ package com.match.matching.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class FilterService {
     private final String ROOT_PATH = File.separator + "var" + File.separator + "jenkins_home"+ File.separator +"workspace"+ File.separator +"match"+ File.separator;
@@ -27,7 +29,7 @@ public class FilterService {
 
         // 파일 목록 출력
         for (File file : fileList) {
-            System.out.println(file.getName());
+            log.info(file.getName());
         }
 //        try{
 //            PROFANITY_PATTERN =  Files.readString(Paths.get(ROOT_PATH + "Profanity.txt")).replaceAll("\\\"", "");
