@@ -22,7 +22,7 @@ public class FilterService {
     public void init() throws IOException {
         try{
             PROFANITY_PATTERN =  Files.readString(Paths.get(ROOT_PATH + "Profanity.txt")).replaceAll("\\\"", "");
-        } catch (NoSuchFieldError e){
+        } catch (Exception e){
             Path path = Paths.get(ROOT_PATH + "test.txt");
             Files.write(path, "123".getBytes());
         }
