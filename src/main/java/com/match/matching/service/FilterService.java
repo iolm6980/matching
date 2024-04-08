@@ -18,14 +18,13 @@ public class FilterService {
 
     @PostConstruct
     public void init() throws IOException {
-        PROFANITY_PATTERN =  Files.readString(Paths.get("Profanity")).replaceAll("\\\"", "");
+        PROFANITY_PATTERN =  Files.readString(Paths.get("./Profanity")).replaceAll("\\\"", "");
     }
     public String filterProfanity(JsonNode jsonNode){
         String message = jsonNode.get("message").asText();
         Pattern pattern = Pattern.compile(PROFANITY_PATTERN, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(message);
         String modify = matcher.replaceAll("**");
-        System.out.println(modify);
         return modify;
     }
 }
