@@ -8,6 +8,7 @@
   * Html
   * JavaScript
   * Css
+  * Thymeleaf
 * BE
   * Spring Boot
   * Java
@@ -16,6 +17,8 @@
   * Docker
   * Jenkins
   * Git
+    
+# 기술 스택을 사용한 이유
 
 # 주요 기능
 * 게임 옵션 선택 후 조건에 따라 사용자 매칭
